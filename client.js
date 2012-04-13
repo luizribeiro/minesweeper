@@ -21,6 +21,27 @@
 		8 : "#333333"
 	};
 
+	/* Utils {{{ */
+	function relMouseCoords(event){
+		var totalOffsetX = 0;
+		var totalOffsetY = 0;
+		var canvasX = 0;
+		var canvasY = 0;
+		var currentElement = this;
+
+		do{
+			totalOffsetX += currentElement.offsetLeft;
+			totalOffsetY += currentElement.offsetTop;
+		} while(currentElement = currentElement.offsetParent)
+
+		canvasX = event.pageX - totalOffsetX;
+		canvasY = event.pageY - totalOffsetY;
+
+		return { x : canvasX, y : canvasY }
+	}
+	HTMLCanvasElement.prototype.relMouseCoords = relMouseCoords;
+	/* }}} */
+
 	function main() {
 		var sources = {
 			button : "img/button.png"
@@ -157,17 +178,10 @@
 	}
 
 	function ev_mousedown(ev) {
-		var x, y;
+		var coords = canvas.relMouseCoords(ev);
+		var x = coords.x, y = coords.y;
 
 		if(!turn) return;
-
-		if(ev.offsetX) {
-			x = ev.offsetX;
-			y = ev.offsetY;
-		} else {
-			x = ev.layerX;
-			y = ev.layerY;
-		}
 
 		x = Math.floor((x-MAP_OFFSET_X)/24);
 		y = Math.floor((y-MAP_OFFSET_Y)/24);
