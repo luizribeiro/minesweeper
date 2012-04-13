@@ -136,7 +136,7 @@
 		y = Math.floor((y-MAP_OFFSET_Y)/24);
 
 		if(x >= 0 && x < 16 && y >= 0 && y < 16) {
-			if(map[x][y] >= 0) return;
+			if(map[x][y] !== -3) return;
 			map[x][y] = 0;
 			turn = false;
 			socket.emit("shoot", { x : x, y : y });

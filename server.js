@@ -35,6 +35,12 @@
 
 		socket.on("shoot", function (data) {
 			var gid = playerGame[socket.id];
+			if(data.x < 0 || data.x >= 16 || data.y < 0 || data.y >= 16
+				|| game[gid].revealed[data.x][data.y] === 1) // invalid shoot
+				return;
+			// prevent cheating on other player's turn
+			if(socket.id === game[gid].player1 && game[gid].turn % 2 == 1) return;
+			if(socket.id === game[gid].player2 && game[gid].turn % 2 == 0) return;
 			if(game[gid].bomb[data.x][data.y] === 0)
 				game[gid].turn++;
 			floodState(gid, data.x, data.y);
