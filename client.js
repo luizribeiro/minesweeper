@@ -1,5 +1,6 @@
 (function() {
 	var canvas, context;
+	var resources;
 	var socket;
 	var opponent;
 	var map;
@@ -11,8 +12,14 @@
 	var MAP_OFFSET_Y = 32;
 
 	function main() {
+		var sources = {
+			button : "img/button.png"
+		};
+
 		setupCanvas();
-		setupSocket();
+		loadResources(function () {
+			setupSocket();
+		});
 	}
 
 	function setupCanvas() {
@@ -20,6 +27,30 @@
 		context = canvas.getContext("2d");
 
 		canvas.addEventListener("mousedown", ev_mousedown, false);
+	}
+
+	function loadResources(callback) {
+		var numResources = 0;
+		var cntResources = 0;
+		var sources = {
+			button : "img/button.png",
+			tile : "img/tile.png",
+		};
+
+		renderMessage("Loading...");
+
+		for(var src in sources)
+			numResources++;
+
+		resources = {};
+		for(var src in sources) {
+			resources[src] = new Image();
+			resources[src].onload = function () {
+				if(++cntResources >= numResources)
+					callback();
+			};
+			resources[src].src = sources[src];
+		}
 	}
 
 	function setupSocket() {
@@ -81,22 +112,21 @@
 		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, canvas.height - 12);
 		for(var i = 0; i < 16; i++) {
 			for(var j = 0; j < 16; j++) {
-				if(map[i][j] == -3) context.fillStyle = "#aaa";
-				else context.fillStyle = "#555";
-				context.fillRect(MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j, 24, 24);
-				context.strokeStyle = "#000";
-				context.strokeRect(MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j, 24, 24);
-				if(map[i][j] === 1) context.fillStyle = "#00a";
-				else if(map[i][j] === 2) context.fillStyle = "#a00";
-				else if(map[i][j] === 3) context.fillStyle = "#0a0";
-				else if(map[i][j] === 4) context.fillStyle = "#0aa";
-				else if(map[i][j] === 5) context.fillStyle = "#aa0";
-				else if(map[i][j] === "A") context.fillStyle = "#00a";
-				else if(map[i][j] === "B") context.fillStyle = "#a00";
-				if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
-					context.font = "bold 20px sans-serif";
-					context.textAlign = "center";
-					context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+19);
+				if(map[i][j] == -3) context.drawImage(resources.button, MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j);
+				else {
+					context.drawImage(resources.tile, MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j);
+					if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
+						if(map[i][j] === 1) context.fillStyle = "#00a";
+						else if(map[i][j] === 2) context.fillStyle = "#a00";
+						else if(map[i][j] === 3) context.fillStyle = "#0a0";
+						else if(map[i][j] === 4) context.fillStyle = "#0aa";
+						else if(map[i][j] === 5) context.fillStyle = "#aa0";
+						else if(map[i][j] === "A") context.fillStyle = "#00a";
+						else if(map[i][j] === "B") context.fillStyle = "#a00";
+						context.font = "bold 20px sans-serif";
+						context.textAlign = "center";
+						context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+19);
+					}
 				}
 			}
 		}
