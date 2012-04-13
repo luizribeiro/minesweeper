@@ -85,10 +85,11 @@
 		});
 
 		socket.on("state", function (data) {
-			if(data.z === "A") myScore++;
-			else if(data.z === "B") opScore++;
-			map[data.x][data.y] = data.z;
-			console.log(data);
+			for(var i = 0; i < data.length; i++) {
+				if(data[i].z === "A") myScore++;
+				else if(data[i].z === "B") opScore++;
+				map[data[i].x][data[i].y] = data[i].z;
+			}
 			renderGame();
 		});
 	}

@@ -43,7 +43,34 @@
 			if(socket.id === game[gid].player2 && game[gid].turn % 2 == 0) return;
 			if(game[gid].bomb[data.x][data.y] === 0)
 				game[gid].turn++;
+
+			var stateDelta1 = [], stateDelta2 = [];
+			var floodState = function (gid, x, y) {
+				game[gid].revealed[x][y] = 1;
+
+				if(game[gid].bomb[x][y] === 1) {
+					stateDelta1.push({ x : x, y : y, z : game[gid].turn % 2 == 0 ? "A" : "B" });
+					stateDelta2.push({ x : x, y : y, z : game[gid].turn % 2 == 0 ? "B" : "A" });
+					if(game[gid].turn % 2 == 0) game[gid].score1++;
+					else game[gid].score2++;
+					game[gid].bombsLeft--;
+					return;
+				}
+
+				stateDelta1.push({ x : x, y : y, z : game[gid].map[x][y] });
+				stateDelta2.push({ x : x, y : y, z : game[gid].map[x][y] });
+
+				if(game[gid].map[x][y] === 0)
+					for(var dx = -1; dx <= 1; dx++)
+						for(var dy = -1; dy <= 1; dy++)
+							if(x+dx >= 0 && x+dx < 16 && y+dy >= 0 && y+dy < 16 && game[gid].revealed[x+dx][y+dy] === 0)
+								floodState(gid, x+dx, y+dy);
+			}
+
 			floodState(gid, data.x, data.y);
+			onlinePlayers[game[gid].player1].emit("state", stateDelta1);
+			onlinePlayers[game[gid].player2].emit("state", stateDelta2);
+
 			announceTurn(gid);
 		});
 
@@ -110,28 +137,6 @@
 		}
 
 		gameCount++;
-	}
-
-	function floodState(gid, x, y) {
-		game[gid].revealed[x][y] = 1;
-
-		if(game[gid].bomb[x][y] === 1) {
-			onlinePlayers[game[gid].player1].emit("state", { x : x, y : y, z : game[gid].turn % 2 == 0 ? "A" : "B" });
-			onlinePlayers[game[gid].player2].emit("state", { x : x, y : y, z : game[gid].turn % 2 == 0 ? "B" : "A" });
-			if(game[gid].turn % 2 == 0) game[gid].score1++;
-			else game[gid].score2++;
-			game[gid].bombsLeft--;
-			return;
-		}
-
-		onlinePlayers[game[gid].player1].emit("state", { x : x, y : y, z : game[gid].map[x][y] });
-		onlinePlayers[game[gid].player2].emit("state", { x : x, y : y, z : game[gid].map[x][y] });
-
-		if(game[gid].map[x][y] === 0)
-			for(var dx = -1; dx <= 1; dx++)
-				for(var dy = -1; dy <= 1; dy++)
-					if(x+dx >= 0 && x+dx < 16 && y+dy >= 0 && y+dy < 16 && game[gid].revealed[x+dx][y+dy] === 0)
-						floodState(gid, x+dx, y+dy);
 	}
 
 	function announceTurn(gid) {
