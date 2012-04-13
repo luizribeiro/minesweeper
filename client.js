@@ -133,12 +133,12 @@
 	}
 
 	function clearScreen() {
-		context.fillStyle = "#000";
-		context.fillRect(0, 0, canvas.width, canvas.height);
 		context.fillStyle = "#fff";
+		context.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
 	function renderText(msg, x, y) {
+		context.fillStyle = "#000";
 		context.font = "bold 12px sans-serif";
 		context.textAlign = "center";
 		context.fillText(msg, x, y);
