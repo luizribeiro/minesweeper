@@ -1,5 +1,6 @@
 (function() {
     var io = require("socket.io").listen(5050);
+
     io.set("log level", 1);
 
 	/* Utils {{{ */
@@ -16,6 +17,8 @@
 	var game = {};
 	var availablePlayer = null;
 	var gameCount = 0;
+
+	var NUM_BOMBS = 50;
 
     io.sockets.on("connection", function (socket) {
 		console.log("Player " + socket.id + " just connected.");
@@ -62,9 +65,12 @@
 			turn : 0,
 			map : [],
 			bomb : [],
+			bombsLeft : NUM_BOMBS,
 			revealed : [],
 			player1 : player1,
-			player2 : player2
+			score1 : 0,
+			player2 : player2,
+			score2 : 0
 		};
 
 		// create map
@@ -80,7 +86,7 @@
 		}
 
 		// place bombs
-		for(var i = 0; i < 50; i++) {
+		for(var i = 0; i < NUM_BOMBS; i++) {
 			var x = Math.floor(Math.random()*16);
 			var y = Math.floor(Math.random()*16);
 			if(game[gameCount].bomb[x][y] === 1)
@@ -105,6 +111,9 @@
 		if(game[gid].bomb[x][y] === 1) {
 			onlinePlayers[game[gid].player1].emit("state", { x : x, y : y, z : game[gid].turn % 2 == 0 ? "A" : "B" });
 			onlinePlayers[game[gid].player2].emit("state", { x : x, y : y, z : game[gid].turn % 2 == 0 ? "B" : "A" });
+			if(game[gid].turn % 2 == 0) game[gid].score1++;
+			else game[gid].score2++;
+			game[gid].bombsLeft--;
 			return;
 		}
 
