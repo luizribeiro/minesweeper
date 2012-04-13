@@ -10,6 +10,16 @@
 
 	var MAP_OFFSET_X = 128;
 	var MAP_OFFSET_Y = 32;
+	var COLORS = {
+		1 : "#06266f",
+		2 : "#078600",
+		3 : "#a60400",
+		4 : "#4c036e",
+		5 : "#a63100",
+		6 : "#04859d",
+		7 : "#000000",
+		8 : "#333333"
+	};
 
 	function main() {
 		var sources = {
@@ -118,16 +128,12 @@
 				else {
 					context.drawImage(resources.tile, MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j);
 					if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
-						if(map[i][j] === 1) context.fillStyle = "#00a";
-						else if(map[i][j] === 2) context.fillStyle = "#a00";
-						else if(map[i][j] === 3) context.fillStyle = "#0a0";
-						else if(map[i][j] === 4) context.fillStyle = "#0aa";
-						else if(map[i][j] === 5) context.fillStyle = "#aa0";
+						if(map[i][j] >= 1 && map[i][j] <= 8) context.fillStyle = COLORS[map[i][j]];
 						else if(map[i][j] === "A") context.fillStyle = "#00a";
 						else if(map[i][j] === "B") context.fillStyle = "#a00";
-						context.font = "bold 20px sans-serif";
+						context.font = "bold 18px sans-serif";
 						context.textAlign = "center";
-						context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+19);
+						context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+18);
 					}
 				}
 			}
