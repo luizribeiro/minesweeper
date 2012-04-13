@@ -46,6 +46,12 @@
 			turn = false;
 			renderGame();
 		});
+
+		socket.on("state", function (data) {
+			map[data.x][data.y] = data.z;
+			console.log(data);
+			renderGame();
+		});
 	}
 
 	function setupMap() {
@@ -53,7 +59,7 @@
 		for(var i = 0; i < 16; i++) {
 			map.push([]);
 			for(var j = 0; j < 16; j++) {
-				map[i].push(-1);
+				map[i].push(-3);
 			}
 		}
 	}
@@ -64,11 +70,23 @@
 		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, canvas.height - 12);
 		for(var i = 0; i < 16; i++) {
 			for(var j = 0; j < 16; j++) {
-				if(map[i][j] == -1) context.fillStyle = "#aaa";
-				else context.fillStyle = "#000";
+				if(map[i][j] == -3) context.fillStyle = "#aaa";
+				else context.fillStyle = "#555";
 				context.fillRect(24*i, 24*j, 24, 24);
 				context.strokeStyle = "#000";
 				context.strokeRect(24*i, 24*j, 24, 24);
+				if(map[i][j] === 1) context.fillStyle = "#00a";
+				else if(map[i][j] === 2) context.fillStyle = "#a00";
+				else if(map[i][j] === 3) context.fillStyle = "#0a0";
+				else if(map[i][j] === 4) context.fillStyle = "#0aa";
+				else if(map[i][j] === 5) context.fillStyle = "#aa0";
+				else if(map[i][j] === "A") context.fillStyle = "#00a";
+				else if(map[i][j] === "B") context.fillStyle = "#a00";
+				if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
+					context.font = "bold 20px sans-serif";
+					context.textAlign = "center";
+					context.fillText(map[i][j], 24*i+12, 24*j+19);
+				}
 			}
 		}
 	}
