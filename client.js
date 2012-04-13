@@ -4,6 +4,8 @@
 	var opponent;
 	var map;
 	var turn;
+	var myScore;
+	var opScore;
 
 	var MAP_OFFSET_X = 128;
 	var MAP_OFFSET_Y = 32;
@@ -51,6 +53,8 @@
 		});
 
 		socket.on("state", function (data) {
+			if(data.z === "A") myScore++;
+			else if(data.z === "B") opScore++;
 			map[data.x][data.y] = data.z;
 			console.log(data);
 			renderGame();
@@ -65,10 +69,14 @@
 				map[i].push(-3);
 			}
 		}
+
+		myScore = 0;
+		opScore = 0;
 	}
 
 	function renderGame() {
 		clearScreen();
+		renderText(myScore + " x " + opScore, canvas.width/2, 20);
 		renderText("Your opponent is " + opponent, canvas.width/2, canvas.height - 24);
 		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, canvas.height - 12);
 		for(var i = 0; i < 16; i++) {
