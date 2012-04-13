@@ -1,3 +1,7 @@
+body {
+	background: url(img/bg.png);
+}
+
 #content {
 	width: 640px;
 	height: 480px;

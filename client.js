@@ -134,8 +134,7 @@
 	}
 
 	function clearScreen() {
-		context.fillStyle = "#fff";
-		context.fillRect(0, 0, canvas.width, canvas.height);
+		context.clearRect(0, 0, canvas.width, canvas.height);
 	}
 
 	function renderText(msg, x, y) {
