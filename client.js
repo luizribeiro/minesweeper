@@ -56,7 +56,8 @@
 	function setupSocket() {
 		renderMessage("Connecting to game server...");
 
-		socket = io.connect("http://localhost:5050", { "connect timeout": 5 });
+		socket = io.connect("http://" + (window.location.hostname || "localhost") + ":5050",
+				{ "connect timeout": 5 });
 
 		socket.on("connect_failed", function (data) {
 			renderMessage("Connection failed.");
