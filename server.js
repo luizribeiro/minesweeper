@@ -130,7 +130,7 @@
 		if(game[gid].map[x][y] === 0)
 			for(var dx = -1; dx <= 1; dx++)
 				for(var dy = -1; dy <= 1; dy++)
-					if(x+dx >= 0 && x+dx < 16 && y+dy >= 0 && y+dy < 16 && dx*dy === 0 && game[gid].revealed[x+dx][y+dy] === 0)
+					if(x+dx >= 0 && x+dx < 16 && y+dy >= 0 && y+dy < 16 && game[gid].revealed[x+dx][y+dy] === 0)
 						floodState(gid, x+dx, y+dy);
 	}
 
