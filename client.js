@@ -5,6 +5,9 @@
 	var map;
 	var turn;
 
+	var MAP_OFFSET_X = 128;
+	var MAP_OFFSET_Y = 32;
+
 	function main() {
 		setupCanvas();
 		setupSocket();
@@ -72,9 +75,9 @@
 			for(var j = 0; j < 16; j++) {
 				if(map[i][j] == -3) context.fillStyle = "#aaa";
 				else context.fillStyle = "#555";
-				context.fillRect(24*i, 24*j, 24, 24);
+				context.fillRect(MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j, 24, 24);
 				context.strokeStyle = "#000";
-				context.strokeRect(24*i, 24*j, 24, 24);
+				context.strokeRect(MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j, 24, 24);
 				if(map[i][j] === 1) context.fillStyle = "#00a";
 				else if(map[i][j] === 2) context.fillStyle = "#a00";
 				else if(map[i][j] === 3) context.fillStyle = "#0a0";
@@ -85,7 +88,7 @@
 				if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
 					context.font = "bold 20px sans-serif";
 					context.textAlign = "center";
-					context.fillText(map[i][j], 24*i+12, 24*j+19);
+					context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+19);
 				}
 			}
 		}
@@ -121,8 +124,8 @@
 			y = ev.layerY;
 		}
 
-		x = Math.floor(x/24);
-		y = Math.floor(y/24);
+		x = Math.floor((x-MAP_OFFSET_X)/24);
+		y = Math.floor((y-MAP_OFFSET_Y)/24);
 
 		if(x >= 0 && x < 16 && y >= 0 && y < 16) {
 			if(map[x][y] >= 0) return;
