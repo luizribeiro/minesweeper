@@ -3,6 +3,7 @@
 	var socket;
 	var opponent;
 	var map;
+	var turn;
 
 	function main() {
 		setupCanvas();
@@ -31,7 +32,18 @@
 
 		socket.on("opponent", function (data) {
 			opponent = data;
+			turn = false;
 			setupMap();
+			renderGame();
+		});
+
+		socket.on("turn", function (data) {
+			turn = true;
+			renderGame();
+		});
+
+		socket.on("wait", function (data) {
+			turn = false;
 			renderGame();
 		});
 	}
@@ -49,6 +61,7 @@
 	function renderGame() {
 		clearScreen();
 		renderText("Your opponent is " + opponent, canvas.width/2, canvas.height - 24);
+		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, canvas.height - 12);
 		for(var i = 0; i < 16; i++) {
 			for(var j = 0; j < 16; j++) {
 				if(map[i][j] == -1) context.fillStyle = "#aaa";
@@ -80,6 +93,8 @@
 	function ev_mousedown(ev) {
 		var x, y;
 
+		if(!turn) return;
+
 		if(ev.offsetX) {
 			x = ev.offsetX;
 			y = ev.offsetY;
@@ -88,7 +103,15 @@
 			y = ev.layerY;
 		}
 
-		map[Math.floor(x/24)][Math.floor(y/24)] = 0;
+		x = Math.floor(x/24);
+		y = Math.floor(y/24);
+
+		if(x >= 0 && x < 16 && y >= 0 && y < 16) {
+			if(map[x][y] >= 0) return;
+			map[x][y] = 0;
+			turn = false;
+			socket.emit("shoot", { x : x, y : y });
+		}
 
 		renderGame();
 	}
