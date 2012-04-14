@@ -73,6 +73,7 @@
 			win : "img/win.png",
 			lose : "img/lose.png",
 			draw : "img/draw.png",
+			boom : "snd/boom.ogg",
 		};
 
 		renderMessage("Loading...");
@@ -82,12 +83,17 @@
 
 		resources = {};
 		for(var src in sources) {
-			resources[src] = new Image();
-			resources[src].onload = function () {
-				if(++cntResources >= numResources)
-					callback();
-			};
-			resources[src].src = sources[src];
+			if(sources[src].indexOf("img") === 0) {
+				resources[src] = new Image();
+				resources[src].onload = function () {
+					if(++cntResources >= numResources)
+						callback();
+				};
+				resources[src].src = sources[src];
+			} else if(sources[src].indexOf("snd") === 0) {
+				resources[src] = new Audio(sources[src]);
+				cntResources++;
+			}
 		}
 	}
 
@@ -124,6 +130,8 @@
 
 		socket.on("state", function (data) {
 			for(var i = 0; i < data.length; i++) {
+				if(data[i].z === "A" || data[i].z === "B")
+					resources.boom.play();
 				if(data[i].z === "A") myScore++;
 				else if(data[i].z === "B") opScore++;
 				map[data[i].x][data[i].y] = data[i].z;
