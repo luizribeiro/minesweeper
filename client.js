@@ -10,7 +10,7 @@
 	var myCursor;
 	var opCursor;
 
-	var MAP_OFFSET_X = 128;
+	var MAP_OFFSET_X = 12;
 	var MAP_OFFSET_Y = 32;
 	var COLORS = {
 		1 : "#06266f",

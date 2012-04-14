@@ -3,7 +3,9 @@ body {
 }
 
 #content {
-	width: 640px;
-	height: 480px;
+	width: 408px;
+	height: 428px;
 	margin: 0px auto;
+	background-color: rgba(255, 255, 255, 0.3);
+	border-radius: 15px;
 }
