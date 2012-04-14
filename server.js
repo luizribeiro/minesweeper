@@ -72,7 +72,9 @@
 			onlinePlayers[game[gid].player2].emit("state", stateDelta2);
 			onlinePlayers[socket.id === game[gid].player1 ? game[gid].player2 : game[gid].player1].emit("cursor", data);
 
-			if(game[gid].bombsLeft === 0) {
+			if(game[gid].bombsLeft === 0
+					|| game[gid].score1 > game[gid].score2 + game[gid].bombsLeft
+					|| game[gid].score2 > game[gid].score1 + game[gid].bombsLeft) {
 				announceWinner(gid);
 				destroyGame(gid);
 			} else {
