@@ -1,4 +1,4 @@
-(function() {
+window.onload = function() {
 	var canvas, context;
 	var resources;
 	var socket;
@@ -295,4 +295,4 @@
 	}
 
 	main();
-})();
+};
