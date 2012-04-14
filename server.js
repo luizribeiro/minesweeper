@@ -70,6 +70,7 @@
 			floodState(gid, data.x, data.y);
 			onlinePlayers[game[gid].player1].emit("state", stateDelta1);
 			onlinePlayers[game[gid].player2].emit("state", stateDelta2);
+			onlinePlayers[socket.id === game[gid].player1 ? game[gid].player2 : game[gid].player1].emit("cursor", data);
 
 			announceTurn(gid);
 		});

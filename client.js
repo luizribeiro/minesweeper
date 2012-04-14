@@ -7,6 +7,8 @@
 	var turn;
 	var myScore;
 	var opScore;
+	var myCursor;
+	var opCursor;
 
 	var MAP_OFFSET_X = 128;
 	var MAP_OFFSET_Y = 32;
@@ -64,6 +66,8 @@
 			tile : "img/tile.png",
 			redflag : "img/redflag.png",
 			blueflag : "img/blueflag.png",
+			redcursor : "img/redcursor.png",
+			bluecursor : "img/bluecursor.png",
 		};
 
 		renderMessage("Loading...");
@@ -126,6 +130,10 @@
 			turn = false;
 			renderMessage("Your opponent chickened out, sorry.");
 		});
+
+		socket.on("cursor", function (data) {
+			opCursor = data;
+		});
 	}
 
 	function setupMap() {
@@ -166,6 +174,10 @@
 				}
 			}
 		}
+		if(myCursor)
+			context.drawImage(resources.bluecursor, MAP_OFFSET_X+24*myCursor.x, MAP_OFFSET_Y+24*myCursor.y);
+		if(opCursor)
+			context.drawImage(resources.redcursor, MAP_OFFSET_X+24*opCursor.x, MAP_OFFSET_Y+24*opCursor.y);
 	}
 
 	function clearScreen() {
@@ -197,7 +209,8 @@
 			if(map[x][y] !== -3) return;
 			map[x][y] = 0;
 			turn = false;
-			socket.emit("shoot", { x : x, y : y });
+			myCursor = { x : x, y : y };
+			socket.emit("shoot", myCursor);
 		}
 
 		renderGame();
