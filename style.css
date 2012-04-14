@@ -2,6 +2,14 @@ body {
 	background: url(img/bg.png);
 }
 
+h1 {
+	font-family: 'Oleo Script', cursive;
+	font-size: 48px;
+	color: #443425;
+	text-shadow: 3px 3px rgba(255, 255, 255, 0.5);
+	text-align: center;
+}
+
 #content {
 	width: 408px;
 	height: 428px;
