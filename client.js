@@ -76,6 +76,7 @@
 			boom : "snd/boom.ogg",
 			sndlose : "snd/lose.ogg",
 			sndwin : "snd/win.ogg",
+			sndshoot : "snd/shoot.ogg",
 		};
 
 		renderMessage("Loading...");
@@ -139,6 +140,7 @@
 				map[data[i].x][data[i].y] = data[i].z;
 			}
 			renderGame();
+			resources.sndshoot.play();
 		});
 
 		socket.on("chicken", function (data) {
@@ -286,6 +288,7 @@
 			turn = false;
 			myCursor = { x : x, y : y };
 			socket.emit("shoot", myCursor);
+			resources.sndshoot.play();
 		}
 
 		renderGame();
