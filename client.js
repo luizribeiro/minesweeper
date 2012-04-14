@@ -123,6 +123,11 @@
 			}
 			renderGame();
 		});
+
+		socket.on("chicken", function (data) {
+			turn = false;
+			renderMessage("Your opponent chickened out, sorry.");
+		});
 	}
 
 	function setupMap() {

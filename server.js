@@ -78,6 +78,11 @@
 			console.log("Player " + socket.id + " disconnected.");
 			if(availablePlayer === socket.id) {
 				availablePlayer = null;
+			} else if(socket.id in playerGame) {
+				var gid = playerGame[socket.id];
+				var opponent = socket.id === game[gid].player1 ? game[gid].player2 : game[gid].player1;
+				onlinePlayers[opponent].emit("chicken", []);
+				destroyGame(gid);
 			}
 			delete onlinePlayers[socket.id];
         });
@@ -137,6 +142,13 @@
 		}
 
 		gameCount++;
+	}
+
+	function destroyGame(gid) {
+		delete playerGame[game[gid].player1];
+		delete playerGame[game[gid].player2];
+		delete game[gid];
+		delete game[gid];
 	}
 
 	function announceTurn(gid) {
