@@ -74,6 +74,8 @@
 			lose : "img/lose.png",
 			draw : "img/draw.png",
 			boom : "snd/boom.ogg",
+			sndlose : "snd/lose.ogg",
+			sndwin : "snd/win.ogg",
 		};
 
 		renderMessage("Loading...");
@@ -152,6 +154,7 @@
 			context.font = "bold 60px 'Oleo Script'";
 			context.textAlign = "center";
 			context.fillText("You Win!", canvas.width/2, canvas.height/2 + 86);
+			resources.sndwin.play();
 		});
 
 		socket.on("lose", function (data) {
@@ -162,6 +165,7 @@
 			context.font = "bold 60px 'Oleo Script'";
 			context.textAlign = "center";
 			context.fillText("You Lose!", canvas.width/2, canvas.height/2 + 86);
+			resources.sndlose.play();
 		});
 
 		socket.on("draw", function (data) {
