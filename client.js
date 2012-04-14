@@ -55,6 +55,7 @@
 		canvas = document.getElementById("canvas");
 		context = canvas.getContext("2d");
 
+		canvas.addEventListener("mousemove", ev_mousemove, false);
 		canvas.addEventListener("mousedown", ev_mousedown, false);
 	}
 
@@ -194,6 +195,20 @@
 	function renderMessage(msg) {
 		clearScreen();
 		renderText(msg, canvas.width/2, canvas.height/2);
+	}
+
+	function ev_mousemove(ev) {
+		var coords = canvas.relMouseCoords(ev);
+
+		if(!turn) return;
+
+		coords.x = Math.floor((coords.x-MAP_OFFSET_X)/24);
+		coords.y = Math.floor((coords.y-MAP_OFFSET_Y)/24);
+
+		if(coords.x >= 0 && coords.x < 16 && coords.y >= 0 && coords.y < 16) {
+			myCursor = coords;
+			renderGame();
+		}
 	}
 
 	function ev_mousedown(ev) {
