@@ -72,7 +72,12 @@
 			onlinePlayers[game[gid].player2].emit("state", stateDelta2);
 			onlinePlayers[socket.id === game[gid].player1 ? game[gid].player2 : game[gid].player1].emit("cursor", data);
 
-			announceTurn(gid);
+			if(game[gid].bombsLeft === 0) {
+				announceWinner(gid);
+				destroyGame(gid);
+			} else {
+				announceTurn(gid);
+			}
 		});
 
         socket.on("disconnect", function (data) {
@@ -150,6 +155,19 @@
 		delete playerGame[game[gid].player2];
 		delete game[gid];
 		delete game[gid];
+	}
+
+	function announceWinner(gid) {
+		if(game[gid].score1 > game[gid].score2) {
+			onlinePlayers[game[gid].player1].emit("win", []);
+			onlinePlayers[game[gid].player2].emit("lose", []);
+		} else if(game[gid].score1 < game[gid].score2) {
+			onlinePlayers[game[gid].player1].emit("lose", []);
+			onlinePlayers[game[gid].player2].emit("win", []);
+		} else {
+			onlinePlayers[game[gid].player1].emit("draw", []);
+			onlinePlayers[game[gid].player2].emit("draw", []);
+		}
 	}
 
 	function announceTurn(gid) {

@@ -70,6 +70,9 @@
 			blueflag : "img/blueflag.png",
 			redcursor : "img/redcursor.png",
 			bluecursor : "img/bluecursor.png",
+			win : "img/win.png",
+			lose : "img/lose.png",
+			draw : "img/draw.png",
 		};
 
 		renderMessage("Loading...");
@@ -131,6 +134,36 @@
 		socket.on("chicken", function (data) {
 			turn = false;
 			renderMessage("Your opponent chickened out, sorry.");
+		});
+
+		socket.on("win", function (data) {
+			turn = false;
+			clearScreen();
+			context.drawImage(resources.win, canvas.width/2 - 64, canvas.height/2 - 104);
+			context.fillStyle = "#443425";
+			context.font = "bold 60px 'Oleo Script'";
+			context.textAlign = "center";
+			context.fillText("You Win!", canvas.width/2, canvas.height/2 + 86);
+		});
+
+		socket.on("lose", function (data) {
+			turn = false;
+			clearScreen();
+			context.drawImage(resources.lose, canvas.width/2 - 64, canvas.height/2 - 104);
+			context.fillStyle = "#443425";
+			context.font = "bold 60px 'Oleo Script'";
+			context.textAlign = "center";
+			context.fillText("You Lose!", canvas.width/2, canvas.height/2 + 86);
+		});
+
+		socket.on("draw", function (data) {
+			turn = false;
+			clearScreen();
+			context.drawImage(resources.draw, canvas.width/2 - 64, canvas.height/2 - 104);
+			context.fillStyle = "#443425";
+			context.font = "bold 60px 'Oleo Script'";
+			context.textAlign = "center";
+			context.fillText("Draw!", canvas.width/2, canvas.height/2 + 86);
 		});
 
 		socket.on("cursor", function (data) {
