@@ -150,11 +150,25 @@
 		opScore = 0;
 	}
 
+	function renderScores() {
+		context.drawImage(resources.blueflag, MAP_OFFSET_X+5, 10);
+		context.fillStyle = "#000";
+		context.font = "bold 20px sans-serif";
+		context.textAlign = "left";
+		context.fillText(myScore, MAP_OFFSET_X+29, 26);
+
+		context.drawImage(resources.redflag, MAP_OFFSET_X+16*24-23, 10);
+		context.fillStyle = "#000";
+		context.font = "bold 20px sans-serif";
+		context.textAlign = "right";
+		context.fillText(opScore, MAP_OFFSET_X+16*24-29, 26);
+
+		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, 23);
+	}
+
 	function renderGame() {
 		clearScreen();
-		renderText(myScore + " x " + opScore, canvas.width/2, 20);
-		renderText("Your opponent is " + opponent, canvas.width/2, canvas.height - 24);
-		renderText(turn ? "It's your turn" : "Please wait...", canvas.width/2, canvas.height - 12);
+		renderScores();
 		for(var i = 0; i < 16; i++) {
 			for(var j = 0; j < 16; j++) {
 				if(map[i][j] == -3) context.drawImage(resources.button, MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j);
