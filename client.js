@@ -57,6 +57,7 @@
 
 		canvas.addEventListener("mousemove", ev_mousemove, false);
 		canvas.addEventListener("mousedown", ev_mousedown, false);
+		canvas.onselectstart = function () { return false; };
 	}
 
 	function loadResources(callback) {
