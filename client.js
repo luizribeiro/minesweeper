@@ -43,10 +43,6 @@
 	/* }}} */
 
 	function main() {
-		var sources = {
-			button : "img/button.png"
-		};
-
 		setupCanvas();
 		loadResources(function () {
 			setupSocket();
@@ -66,6 +62,8 @@
 		var sources = {
 			button : "img/button.png",
 			tile : "img/tile.png",
+			redflag : "img/redflag.png",
+			blueflag : "img/blueflag.png",
 		};
 
 		renderMessage("Loading...");
@@ -154,12 +152,16 @@
 				else {
 					context.drawImage(resources.tile, MAP_OFFSET_X+24*i, MAP_OFFSET_Y+24*j);
 					if(map[i][j] > 0 || map[i][j] === "A" || map[i][j] === "B") {
-						if(map[i][j] >= 1 && map[i][j] <= 8) context.fillStyle = COLORS[map[i][j]];
-						else if(map[i][j] === "A") context.fillStyle = "#00a";
-						else if(map[i][j] === "B") context.fillStyle = "#a00";
-						context.font = "bold 18px sans-serif";
-						context.textAlign = "center";
-						context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+18);
+						if(map[i][j] >= 1 && map[i][j] <= 8) {
+							context.fillStyle = COLORS[map[i][j]];
+							context.font = "bold 18px sans-serif";
+							context.textAlign = "center";
+							context.fillText(map[i][j], MAP_OFFSET_X+24*i+12, MAP_OFFSET_Y+24*j+18);
+						} else if(map[i][j] === "A") {
+							context.drawImage(resources.blueflag, MAP_OFFSET_X+24*i+3, MAP_OFFSET_Y+24*j+2);
+						} else if(map[i][j] === "B") {
+							context.drawImage(resources.redflag, MAP_OFFSET_X+24*i+3, MAP_OFFSET_Y+24*j+2);
+						}
 					}
 				}
 			}
