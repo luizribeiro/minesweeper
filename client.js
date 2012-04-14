@@ -19,7 +19,7 @@
 		4 : "#4c036e",
 		5 : "#a63100",
 		6 : "#04859d",
-		7 : "#000000",
+		7 : "#443425",
 		8 : "#333333"
 	};
 
@@ -152,13 +152,13 @@
 
 	function renderScores() {
 		context.drawImage(resources.blueflag, MAP_OFFSET_X+5, 10);
-		context.fillStyle = "#000";
+		context.fillStyle = "#443425";
 		context.font = "bold 20px sans-serif";
 		context.textAlign = "left";
 		context.fillText(myScore, MAP_OFFSET_X+29, 26);
 
 		context.drawImage(resources.redflag, MAP_OFFSET_X+16*24-23, 10);
-		context.fillStyle = "#000";
+		context.fillStyle = "#443425";
 		context.font = "bold 20px sans-serif";
 		context.textAlign = "right";
 		context.fillText(opScore, MAP_OFFSET_X+16*24-29, 26);
@@ -200,7 +200,7 @@
 	}
 
 	function renderText(msg, x, y) {
-		context.fillStyle = "#000";
+		context.fillStyle = "#443425";
 		context.font = "bold 12px sans-serif";
 		context.textAlign = "center";
 		context.fillText(msg, x, y);
