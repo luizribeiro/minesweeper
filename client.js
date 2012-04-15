@@ -150,7 +150,9 @@ window.onload = function() {
 
 		socket.on("win", function (data) {
 			turn = false;
-			clearScreen();
+			context.globalAlpha = 0.2;
+			renderGame();
+			context.globalAlpha = 1.0;
 			context.drawImage(resources.win, canvas.width/2 - 64, canvas.height/2 - 104);
 			context.fillStyle = "#443425";
 			context.font = "bold 60px 'Oleo Script'";
@@ -161,7 +163,9 @@ window.onload = function() {
 
 		socket.on("lose", function (data) {
 			turn = false;
-			clearScreen();
+			context.globalAlpha = 0.2;
+			renderGame();
+			context.globalAlpha = 1.0;
 			context.drawImage(resources.lose, canvas.width/2 - 64, canvas.height/2 - 104);
 			context.fillStyle = "#443425";
 			context.font = "bold 60px 'Oleo Script'";
@@ -172,7 +176,9 @@ window.onload = function() {
 
 		socket.on("draw", function (data) {
 			turn = false;
-			clearScreen();
+			context.globalAlpha = 0.2;
+			renderGame();
+			context.globalAlpha = 1.0;
 			context.drawImage(resources.draw, canvas.width/2 - 64, canvas.height/2 - 104);
 			context.fillStyle = "#443425";
 			context.font = "bold 60px 'Oleo Script'";
