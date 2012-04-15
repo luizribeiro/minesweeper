@@ -149,41 +149,15 @@ window.onload = function() {
 		});
 
 		socket.on("win", function (data) {
-			turn = false;
-			context.globalAlpha = 0.2;
-			renderGame();
-			context.globalAlpha = 1.0;
-			context.drawImage(resources.win, canvas.width/2 - 64, canvas.height/2 - 104);
-			context.fillStyle = "#443425";
-			context.font = "bold 60px 'Oleo Script'";
-			context.textAlign = "center";
-			context.fillText("You Win!", canvas.width/2, canvas.height/2 + 86);
-			resources.sndwin.play();
+			renderAnnouncement(resources.win, "You Win!", resources.sndwin);
 		});
 
 		socket.on("lose", function (data) {
-			turn = false;
-			context.globalAlpha = 0.2;
-			renderGame();
-			context.globalAlpha = 1.0;
-			context.drawImage(resources.lose, canvas.width/2 - 64, canvas.height/2 - 104);
-			context.fillStyle = "#443425";
-			context.font = "bold 60px 'Oleo Script'";
-			context.textAlign = "center";
-			context.fillText("You Lose!", canvas.width/2, canvas.height/2 + 86);
-			resources.sndlose.play();
+			renderAnnouncement(resources.lose, "You Lose!", resources.sndlose);
 		});
 
 		socket.on("draw", function (data) {
-			turn = false;
-			context.globalAlpha = 0.2;
-			renderGame();
-			context.globalAlpha = 1.0;
-			context.drawImage(resources.draw, canvas.width/2 - 64, canvas.height/2 - 104);
-			context.fillStyle = "#443425";
-			context.font = "bold 60px 'Oleo Script'";
-			context.textAlign = "center";
-			context.fillText("Draw!", canvas.width/2, canvas.height/2 + 86);
+			renderAnnouncement(resources.draw, "Draw!");
 		});
 
 		socket.on("cursor", function (data) {
@@ -221,6 +195,10 @@ window.onload = function() {
 	}
 
 	function renderGame() {
+		if($("#message").is(":visible"))
+			$("#message").fadeOut("fast", function () {});
+		if(!$("canvas").is(":visible"))
+			$("canvas").fadeIn("slow", function () {});
 		clearScreen();
 		renderScores();
 		for(var i = 0; i < 16; i++) {
@@ -261,8 +239,22 @@ window.onload = function() {
 	}
 
 	function renderMessage(msg) {
-		clearScreen();
-		renderText(msg, canvas.width/2, canvas.height/2);
+		if($("canvas").is(":visible"))
+			$("canvas").fadeOut("slow", function () {});
+		$("#message p").text(msg);
+		if(!$("#message").is(":visible"))
+			$("#message").fadeIn("fast", function () {}).css("display", "table-cell");
+	}
+
+	function renderAnnouncement(img, msg, snd) {
+		if($("canvas").is(":visible"))
+			$("canvas").fadeTo("slow", 0.2, function () {});
+		$("#announcement img").replaceWith(img);
+		$("#announcement p").text(msg);
+		if(!$("#announcement").is(":visible"))
+			$("#announcement").fadeIn("slow", function () {
+				if(snd !== undefined) snd.play();
+			}).css("display", "table-cell");
 	}
 
 	function ev_mousemove(ev) {

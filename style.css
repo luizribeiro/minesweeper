@@ -1,11 +1,11 @@
 body {
 	background: url(img/bg.png);
+	color: #443425;
 }
 
 h1 {
 	font-family: 'Oleo Script', cursive;
 	font-size: 48px;
-	color: #443425;
 	text-shadow: 3px 3px rgba(255, 255, 255, 0.5);
 	text-align: center;
 }
@@ -16,4 +16,55 @@ h1 {
 	margin: 0px auto;
 	background-color: rgba(255, 255, 255, 0.3);
 	border-radius: 15px;
+}
+
+#message {
+	font: bold 12px sans-serif;
+	width: 408px;
+	height: 428px;
+	display: none;
+	position: absolute;
+	z-index: 9999;
+}
+
+#message div {
+	width: 408px;
+	height: 428px;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#announcement {
+	width: 408px;
+	height: 428px;
+	display: none;
+	position: absolute;
+	z-index: 9999;
+}
+
+#announcement img {
+	padding: 0px;
+	margin: 0px;
+}
+
+#announcement p {
+	font-family: 'Oleo Script', cursive;
+	font-size: 60px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#announcement div {
+	width: 408px;
+	height: 428px;
+	text-align: center;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#canvas {
+	display: none;
+	position: absolute;
+	z-index: 1;
 }
