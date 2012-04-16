@@ -14,10 +14,6 @@ var State = function () {
             return this;
         };
 
-        Message.prototype.render = function () {
-            return this;
-        };
-
         Message.prototype.setText = function (msg) {
             $("#message p").text(msg);
             return this;
