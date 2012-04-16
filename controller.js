@@ -9,15 +9,18 @@ var Controller = function () {
     Controller.prototype.init = function () {
         var self = this;
 
+        State.Message.setSpinner(true);
         State.Message.setText("Loading...");
         this.changeState(State.Message);
 
         this.listen("resources_loaded", function () {
+            State.Message.setSpinner(true);
             State.Message.setText("Connecting to game server...");
             Network.connect();
         });
 
         this.listen("network_connected", function () {
+            State.Message.setSpinner(true);
             State.Message.setText("Waiting for opponents...");
         });
 
@@ -26,6 +29,7 @@ var Controller = function () {
         });
 
         this.listen("game_chicken", function () {
+            State.Message.setSpinner(false);
             State.Message.setText("Your opponent chickened out, sorry.");
             self.changeState(State.Message);
         });

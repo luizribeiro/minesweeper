@@ -1,7 +1,8 @@
 var State = function () {
     var Message = function () {
         function Message() {
-            $("#content").append("<div id=\"message\"><div><p></p></div></div>");
+            $("#content").append("<div id=\"message\"><div><p></p><img src=\"img/spinner.gif\" /></div></div>");
+            $("#message img").hide();
         }
 
         Message.prototype.enter = function () {
@@ -21,6 +22,13 @@ var State = function () {
 
         Message.prototype.getText = function () {
             return $("#message p").text();
+        };
+
+        Message.prototype.setSpinner = function (spinner) {
+            if(spinner)
+                $("#message img").show();
+            else
+                $("#message img").hide();
         };
 
         return new Message();

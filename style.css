@@ -19,12 +19,16 @@ h1 {
 }
 
 #message {
-	font: bold 12px sans-serif;
+	font: bold 14px sans-serif;
 	width: 408px;
 	height: 428px;
 	display: none;
 	position: absolute;
 	z-index: 9999;
+}
+
+#message img {
+    opacity: 0.6;
 }
 
 #message div {
