@@ -6,10 +6,14 @@ var Network = function () {
 
     Network.prototype.connect = function () {
         var host = window.location.hostname || "localhost";
-        socket = io.connect("http://" + host + ":5050", { "connect timeout": 5 });
+        socket = io.connect("http://" + host + ":5050", { "connect timeout": 5000 });
 
         socket.on("connect", function (data) {
             Controller.notify("network_connected");
+        });
+
+        socket.on("error", function (data) {
+            Controller.notify("network_error", data);
         });
 
         socket.on("opponent", function (data) {

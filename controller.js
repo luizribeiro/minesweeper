@@ -24,6 +24,11 @@ var Controller = function () {
             State.Message.setText("Waiting for opponents...");
         });
 
+        this.listen("network_error", function (reason) {
+            State.Message.setSpinner(false);
+            State.Message.setText("There was a problem while connecting to the game server. Please, try again later.");
+        });
+
         this.listen("model_init", function () {
             self.changeState(State.Game);
         });

@@ -39,6 +39,12 @@ h1 {
 	display: table-cell;
 }
 
+#message p {
+    padding-left: 10%;
+    padding-right: 10%;
+    line-height: 1.3em;
+}
+
 #announcement {
 	width: 408px;
 	height: 428px;
