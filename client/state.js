@@ -52,7 +52,7 @@ var State = function () {
         };
 
         function Game() {
-            $("#content").append("<div id=\"announcement\"><div><img /><p></p></div></div>");
+            $("#content").append("<div id=\"announcement\"><div><img /><p></p><button>Play Again</button></div></div>");
             $("#content").append("<canvas id=\"canvas\" width=\"408\" height=\"428\"></canvas>");
 
             canvas = document.getElementById("canvas");
@@ -72,6 +72,10 @@ var State = function () {
             });
             Controller.listen("game_draw", function () {
                 renderAnnouncement(Resources.getImage("draw"), "Draw!");
+            });
+
+            $("#announcement button").click(function () {
+                Controller.notify("play_again");
             });
         }
 
@@ -160,7 +164,7 @@ var State = function () {
         function renderAnnouncement(img, msg, snd) {
             if($("canvas").is(":visible"))
                 $("canvas").fadeTo("slow", 0.2, function () {});
-            $("#announcement img").replaceWith(img);
+            $("#announcement img").attr("src", img.src);
             $("#announcement p").text(msg);
             if(!$("#announcement").is(":visible"))
                 $("#announcement").fadeIn("slow", function () {

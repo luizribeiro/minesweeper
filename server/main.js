@@ -25,13 +25,20 @@
         console.log("Player " + socket.id + " just connected.");
         onlinePlayers[socket.id] = socket;
 
-        if(availablePlayer === null) {
-            availablePlayer = socket.id;
-        } else {
-            setupGame(availablePlayer, socket.id);
-            availablePlayer = null;
-            announceTurn(playerGame[socket.id]);
-        }
+        socket.on("challenge", function (data) {
+            if(availablePlayer === socket.id || playerGame[socket.id])
+                return;
+
+            console.log("Player " + socket.id + " is challenging.");
+
+            if(availablePlayer === null) {
+                availablePlayer = socket.id;
+            } else {
+                setupGame(availablePlayer, socket.id);
+                availablePlayer = null;
+                announceTurn(playerGame[socket.id]);
+            }
+        });
 
         socket.on("shoot", function (data) {
             var gid = playerGame[socket.id];

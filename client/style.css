@@ -78,3 +78,53 @@ h1 {
 	position: absolute;
 	z-index: 1;
 }
+
+button {
+	background-color: #9e896e;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9e896e), color-stop(100%, #836e52));
+	background-image: -webkit-linear-gradient(top, #9e896e, #836e52);
+	background-image: -moz-linear-gradient(top, #9e896e, #836e52);
+	background-image: -ms-linear-gradient(top, #9e896e, #836e52);
+	background-image: -o-linear-gradient(top, #9e896e, #836e52);
+	background-image: linear-gradient(top, #9e896e, #836e52);
+	border: 1px solid #836e52;
+	border-bottom: 1px solid #79654b;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 0 0 #af9e88;
+	-moz-box-shadow: inset 0 1px 0 0 #af9e88;
+	box-shadow: inset 0 1px 0 0 #af9e88;
+	color: #fff;
+	font: bold 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+	line-height: 1;
+	padding: 7px 10px 8px 10px;
+	text-align: center;
+	text-shadow: 0 -1px 0 #705c41;
+}
+
+button:hover {
+	background-color: #948066;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #948066), color-stop(100%, #7e694e));
+	background-image: -webkit-linear-gradient(top, #948066, #7e694e);
+	background-image: -moz-linear-gradient(top, #948066, #7e694e);
+	background-image: -ms-linear-gradient(top, #948066, #7e694e);
+	background-image: -o-linear-gradient(top, #948066, #7e694e);
+	background-image: linear-gradient(top, #948066, #7e694e);
+	-webkit-box-shadow: inset 0 1px 0 0 #a59581;
+	-moz-box-shadow: inset 0 1px 0 0 #a59581;
+	box-shadow: inset 0 1px 0 0 #a59581;
+	cursor: pointer;
+}
+
+button:active {
+	border: 1px solid #79654b;
+	border-bottom: 1px solid #6f5c44;
+	-webkit-box-shadow: inset 0 0 8px 4px #6f5d46, 0 1px 0 0 #eeeeee;
+	-moz-box-shadow: inset 0 0 8px 4px #6f5d46, 0 1px 0 0 #eeeeee;
+	box-shadow: inset 0 0 8px 4px #6f5d46, 0 1px 0 0 #eeeeee;
+}
+
+#announcement button {
+	margin-top: 20px;
+}

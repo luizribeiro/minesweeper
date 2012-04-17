@@ -58,5 +58,9 @@ var Network = function () {
         socket.emit("shoot", cursor);
     };
 
+    Network.prototype.challenge = function (cursor) {
+        socket.emit("challenge", []);
+    };
+
     return new Network();
 }();

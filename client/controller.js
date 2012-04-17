@@ -20,8 +20,14 @@ var Controller = function () {
         });
 
         this.listen("network_connected", function () {
+            self.notify("play_again");
+        });
+
+        this.listen("play_again", function () {
             State.Message.setSpinner(true);
             State.Message.setText("Waiting for opponents...");
+            self.changeState(State.Message);
+            Network.challenge();
         });
 
         this.listen("network_error", function (reason) {
