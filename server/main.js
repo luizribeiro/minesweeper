@@ -19,7 +19,7 @@
     var availablePlayer = null;
     var gameCount = 0;
 
-    var NUM_BOMBS = 30;
+    var NUM_BOMBS = 40;
 
     io.sockets.on("connection", function (socket) {
         console.log("Player " + socket.id + " just connected.");
