@@ -165,7 +165,7 @@ var State = function () {
         function renderAnnouncement(img, msg, snd) {
             if($("canvas").is(":visible"))
                 $("canvas").fadeTo("slow", 0.2, function () {});
-            $("#announcement img").attr("src", img.src);
+            $("#announcement img").replaceWith($(img).clone());
             $("#announcement p").text(msg);
             $("#announcement button").removeAttr("disabled");
             if(!$("#announcement").is(":visible"))
