@@ -76,7 +76,8 @@ var State = function () {
         }
 
         Game.prototype.enter = function () {
-            $("canvas").fadeIn("slow", function () {});
+            $("canvas").stop();
+            $("canvas").fadeTo("slow", 1.0, function () {});
             return this;
         };
 

@@ -43,9 +43,10 @@ var Controller = function () {
     };
 
     Controller.prototype.changeState = function (newState) {
-        if(currentState)
+        if(currentState && currentState !== newState)
             currentState.exit();
-        newState.enter();
+        if(!currentState || currentState !== newState)
+            newState.enter();
         currentState = newState;
     };
 
