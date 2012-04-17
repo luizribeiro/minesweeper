@@ -75,6 +75,7 @@ var State = function () {
             });
 
             $("#announcement button").click(function () {
+                $(this).attr("disabled", "disabled");
                 Controller.notify("play_again");
             });
         }
@@ -166,6 +167,7 @@ var State = function () {
                 $("canvas").fadeTo("slow", 0.2, function () {});
             $("#announcement img").attr("src", img.src);
             $("#announcement p").text(msg);
+            $("#announcement button").removeAttr("disabled");
             if(!$("#announcement").is(":visible"))
                 $("#announcement").fadeIn("slow", function () {
                     if(snd !== undefined) snd.play();
