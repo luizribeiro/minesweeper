@@ -9,13 +9,11 @@ var Controller = function () {
     Controller.prototype.init = function () {
         var self = this;
 
-        State.Message.setSpinner(true);
-        State.Message.setText("Loading...");
-        this.changeState(State.Message);
+        State.Loading.setText("Loading...");
+        this.changeState(State.Loading);
 
         this.listen("resources_loaded", function () {
-            State.Message.setSpinner(true);
-            State.Message.setText("Connecting to game server...");
+            State.Loading.setText("Connecting to game server...");
             Network.connect();
         });
 
@@ -24,15 +22,13 @@ var Controller = function () {
         });
 
         this.listen("play_again", function () {
-            State.Message.setSpinner(true);
-            State.Message.setText("Waiting for opponents...");
-            self.changeState(State.Message);
+            State.Loading.setText("Waiting for opponents...");
+            self.changeState(State.Loading);
             Network.challenge();
         });
 
         this.listen("network_error", function (reason) {
-            State.Message.setSpinner(false);
-            State.Message.setText("There was a problem while connecting to the game server. Please, try again later.");
+            State.Loading.setText("There was a problem while connecting to the game server. Please, try again later.");
         });
 
         this.listen("model_init", function () {
@@ -40,9 +36,8 @@ var Controller = function () {
         });
 
         this.listen("game_chicken", function () {
-            State.Message.setSpinner(false);
-            State.Message.setText("Your opponent chickened out, sorry.");
-            self.changeState(State.Message);
+            State.Chicken.setText("Your opponent chickened out, sorry.");
+            self.changeState(State.Chicken);
         });
 
         Resources.load();

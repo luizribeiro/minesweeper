@@ -18,7 +18,7 @@ h1 {
 	border-radius: 15px;
 }
 
-#message {
+.message {
 	font: bold 14px sans-serif;
 	width: 408px;
 	height: 428px;
@@ -27,11 +27,11 @@ h1 {
 	z-index: 9999;
 }
 
-#message img {
+.message img {
     opacity: 0.6;
 }
 
-#message div {
+.message div {
 	width: 408px;
 	height: 428px;
 	text-align: center;
@@ -39,7 +39,7 @@ h1 {
 	display: table-cell;
 }
 
-#message p {
+.message p {
     padding-left: 10%;
     padding-right: 10%;
     line-height: 1.3em;

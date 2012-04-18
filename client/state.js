@@ -1,37 +1,53 @@
 var State = function () {
-    var Message = function () {
-        function Message() {
-            $("#content").append("<div id=\"message\"><div><p></p><img src=\"img/spinner.gif\" /></div></div>");
-            $("#message img").hide();
+    var Chicken = function () {
+        function Chicken() {
+            $("#content").append("<div id=\"chicken\" class=\"message\"><div><p></p><button>Play Again</button></div></div>");
+            $("#chicken button").click(function () {
+                $(this).attr("disabled", "disabled");
+                Controller.notify("play_again");
+            });
         }
 
-        Message.prototype.enter = function () {
-            $("#message").fadeIn("fast", function () {}).css("display", "table-cell");
+        Chicken.prototype.enter = function () {
+            $("#chicken button").removeAttr("disabled");
+            $("#chicken").fadeIn("fast", function () {}).css("display", "table-cell");
             return this;
         };
 
-        Message.prototype.exit = function () {
-            $("#message").fadeOut("fast", function () {});
+        Chicken.prototype.exit = function () {
+            $("#chicken").fadeOut("fast", function () {});
             return this;
         };
 
-        Message.prototype.setText = function (msg) {
-            $("#message p").text(msg);
+        Chicken.prototype.setText = function (msg) {
+            $("#chicken p").text(msg);
             return this;
         };
 
-        Message.prototype.getText = function () {
-            return $("#message p").text();
+        return new Chicken();
+    }();
+
+    var Loading = function () {
+        function Loading() {
+            $("#content").append("<div id=\"loading\" class=\"message\"><div><p></p><img src=\"img/spinner.gif\" /></div></div>");
+        }
+
+        Loading.prototype.enter = function () {
+            $("#loading").fadeIn("fast", function () {}).css("display", "table-cell");
+            return this;
         };
 
-        Message.prototype.setSpinner = function (spinner) {
-            if(spinner)
-                $("#message img").show();
-            else
-                $("#message img").hide();
+        Loading.prototype.exit = function () {
+            $("#loading").fadeOut("fast", function () {});
+            return this;
         };
 
-        return new Message();
+        Loading.prototype.setText = function (msg) {
+            $("#loading p").text(msg);
+            return this;
+        };
+
+        return new Loading();
     }();
 
     var Game = function () {
@@ -210,7 +226,8 @@ var State = function () {
     }();
 
     return {
-        Message : Message,
+        Chicken : Chicken,
+        Loading : Loading,
         Game : Game,
     };
 }();
