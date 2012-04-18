@@ -10,12 +10,12 @@ var State = function () {
 
         Chicken.prototype.enter = function () {
             $("#chicken button").removeAttr("disabled");
-            $("#chicken").fadeIn("fast", function () {}).css("display", "table-cell");
+            $("#chicken").stop().fadeIn("fast", function () {}).css("display", "table-cell");
             return this;
         };
 
         Chicken.prototype.exit = function () {
-            $("#chicken").fadeOut("fast", function () {});
+            $("#chicken").stop().fadeOut("fast", function () {});
             return this;
         };
 
@@ -33,12 +33,12 @@ var State = function () {
         }
 
         Loading.prototype.enter = function () {
-            $("#loading").fadeIn("fast", function () {}).css("display", "table-cell");
+            $("#loading").stop().fadeIn("fast", function () {}).css("display", "table-cell");
             return this;
         };
 
         Loading.prototype.exit = function () {
-            $("#loading").fadeOut("fast", function () {});
+            $("#loading").stop().fadeOut("fast", function () {});
             return this;
         };
 
@@ -68,10 +68,11 @@ var State = function () {
         };
 
         function Game() {
-            $("#content").append("<div id=\"announcement\"><div><img /><p></p><button>Play Again</button></div></div>");
-            $("#content").append("<canvas id=\"canvas\" width=\"408\" height=\"428\"></canvas>");
+            $("#content").append("<div id=\"game\"></div>");
+            $("#game").append("<canvas id=\"canvas\" width=\"408\" height=\"428\"></canvas>");
+            $("#game").append("<div id=\"announcement\"><div><img /><p></p><button>Play Again</button></div></div>");
 
-            canvas = document.getElementById("canvas");
+            canvas = $("#game canvas").get(0);
             context = canvas.getContext("2d");
 
             canvas.addEventListener("mousemove", ev_mousemove, false);
@@ -97,16 +98,14 @@ var State = function () {
         }
 
         Game.prototype.enter = function () {
-            $("canvas").stop();
-            $("canvas").fadeTo("slow", 1.0, function () {});
+            $("#announcement").hide();
+            $("#game canvas").css({ opacity : 1.0 }).show();
+            $("#game").stop().fadeIn("slow", function () {});
             return this;
         };
 
         Game.prototype.exit = function () {
-            if($("canvas").is(":visible"))
-                $("canvas").fadeOut("slow", function () {});
-            if($("#announcement").is(":visible"))
-                $("#announcement").fadeOut("slow", function () {});
+            $("#game").stop().fadeOut("slow", function () {});
             return this;
         };
 
@@ -179,15 +178,13 @@ var State = function () {
         }
 
         function renderAnnouncement(img, msg, snd) {
-            if($("canvas").is(":visible"))
-                $("canvas").fadeTo("slow", 0.2, function () {});
+            $("#game canvas").stop().fadeTo("slow", 0.2, function () {});
             $("#announcement img").replaceWith($(img).clone());
             $("#announcement p").text(msg);
             $("#announcement button").removeAttr("disabled");
-            if(!$("#announcement").is(":visible"))
-                $("#announcement").fadeIn("slow", function () {
-                    if(snd !== undefined) snd.play();
-                }).css("display", "table-cell");
+            $("#announcement").stop().fadeIn("slow", function () {
+                if(snd !== undefined) snd.play();
+            }).css("display", "table-cell");
         }
 
         function ev_mousemove(ev) {
