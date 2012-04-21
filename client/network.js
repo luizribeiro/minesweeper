@@ -1,6 +1,9 @@
-var Network = function () {
+var Network = (function () {
+    'use strict';
+    /*global Controller, io, Model, Resources, window */
+
     var socket;
-    
+
     function Network() {
     }
 
@@ -63,4 +66,4 @@ var Network = function () {
     };
 
     return new Network();
-}();
+}());
