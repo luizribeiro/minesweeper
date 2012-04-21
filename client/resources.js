@@ -1,4 +1,7 @@
-var Resources = function () {
+var Resources = (function () {
+    'use strict';
+    /*global Audio, Controller, Image */
+
     var RESOURCES = {
         // images
         button : "img/button.png",
@@ -24,23 +27,25 @@ var Resources = function () {
     }
 
     Resources.prototype.load = function () {
-        var numResources = 0;
-        var cntResources = 0;
+        var numResources = 0, cntResources = 0,
+            src, resource_callback;
 
-        for(var src in RESOURCES)
+        resource_callback = function () {
+            if (++cntResources >= numResources) {
+                Controller.notify("resources_loaded");
+            }
+        };
+
+        for (src in RESOURCES) {
             numResources++;
+        }
 
-        resources = {};
-        for(var src in RESOURCES) {
-            if(RESOURCES[src].indexOf("img") === 0) {
+        for (src in RESOURCES) {
+            if (RESOURCES[src].indexOf("img") === 0) {
                 this.images[src] = new Image();
-                this.images[src].onload = function () {
-                    if(++cntResources >= numResources) {
-                        Controller.notify("resources_loaded");
-                    }
-                };
+                this.images[src].onload = resource_callback;
                 this.images[src].src = RESOURCES[src];
-            } else if(RESOURCES[src].indexOf("snd") === 0) {
+            } else if (RESOURCES[src].indexOf("snd") === 0) {
                 this.sounds[src] = new Audio(RESOURCES[src]);
                 cntResources++;
             }
@@ -58,4 +63,4 @@ var Resources = function () {
     };
 
     return new Resources();
-}();
+}());
