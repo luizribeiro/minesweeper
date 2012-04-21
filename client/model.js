@@ -1,19 +1,21 @@
-var Model = function () {
-    var map;
-    var myTurn;
-    var myScore;
-    var opScore;
-    var myCursor;
-    var opCursor;
+var Model = (function () {
+    'use strict';
+    /*global Controller, Resources */
+
+    var map, myTurn,
+        myScore, opScore,
+        myCursor, opCursor;
 
     function Model() {
     }
 
     Model.prototype.init = function () {
+        var i, j;
+
         map = [];
-        for(var i = 0; i < 16; i++) {
+        for (i = 0; i < 16; i++) {
             map.push([]);
-            for(var j = 0; j < 16; j++) {
+            for (j = 0; j < 16; j++) {
                 map[i].push(-3);
             }
         }
@@ -30,14 +32,24 @@ var Model = function () {
     };
 
     Model.prototype.updateMap = function (data) {
-        for(var i = 0; i < data.length; i++) {
-            if(data[i].z === "A" || data[i].z === "B")
+        var i;
+
+        for (i = 0; i < data.length; i++) {
+            if (data[i].z === "A" || data[i].z === "B") {
                 Resources.getSound("boom").play();
-            if(data[i].z === "A") myScore++;
-            else if(data[i].z === "B") opScore++;
+            }
+
+            if (data[i].z === "A") {
+                myScore++;
+            } else if (data[i].z === "B") {
+                opScore++;
+            }
+
             map[data[i].x][data[i].y] = data[i].z;
         }
+
         Controller.notify("model_updated");
+
         return this;
     };
 
@@ -89,4 +101,4 @@ var Model = function () {
     };
 
     return new Model();
-}();
+}());
