@@ -37,17 +37,21 @@ var Resources = (function () {
         };
 
         for (src in RESOURCES) {
-            numResources++;
+            if (RESOURCES.hasOwnProperty(src)) {
+                numResources++;
+            }
         }
 
         for (src in RESOURCES) {
-            if (RESOURCES[src].indexOf("img") === 0) {
-                this.images[src] = new Image();
-                this.images[src].onload = resource_callback;
-                this.images[src].src = RESOURCES[src];
-            } else if (RESOURCES[src].indexOf("snd") === 0) {
-                this.sounds[src] = new Audio(RESOURCES[src]);
-                cntResources++;
+            if (RESOURCES.hasOwnProperty(src)) {
+                if (RESOURCES[src].indexOf("img") === 0) {
+                    this.images[src] = new Image();
+                    this.images[src].onload = resource_callback;
+                    this.images[src].src = RESOURCES[src];
+                } else if (RESOURCES[src].indexOf("snd") === 0) {
+                    this.sounds[src] = new Audio(RESOURCES[src]);
+                    cntResources++;
+                }
             }
         }
 

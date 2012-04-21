@@ -69,7 +69,9 @@ var Controller = (function () {
     Controller.prototype.notify = function (ev, data) {
         var i;
         for (i in listeners[ev]) {
-            listeners[ev][i](data);
+            if (listeners[ev].hasOwnProperty(i)) {
+                listeners[ev][i](data);
+            }
         }
     };
 
