@@ -2,7 +2,9 @@ var State = (function () {
     'use strict';
     /*global $, Controller, Model, Network, Resources */
 
-    var Chicken = (function () {
+    var Chicken, Loading, Game;
+
+    Chicken = (function () {
         function Chicken() {
             $("#content").append("<div id=\"chicken\" class=\"message\"><div><p></p><button>Play Again</button></div></div>");
             $("#chicken button").click(function () {
@@ -30,7 +32,7 @@ var State = (function () {
         return new Chicken();
     }());
 
-    var Loading = (function () {
+    Loading = (function () {
         function Loading() {
             $("#content").append("<div id=\"loading\" class=\"message\"><div><p></p><img src=\"img/spinner.gif\" /></div></div>");
         }
@@ -53,22 +55,19 @@ var State = (function () {
         return new Loading();
     }());
 
-    var Game = (function () {
-        var canvas;
-        var context;
-
-        var MAP_OFFSET_X = 12;
-        var MAP_OFFSET_Y = 32;
-        var COLORS = {
-            1 : "#06266f",
-            2 : "#078600",
-            3 : "#a60400",
-            4 : "#4c036e",
-            5 : "#a63100",
-            6 : "#04859d",
-            7 : "#443425",
-            8 : "#333333"
-        };
+    Game = (function () {
+        var canvas, context,
+            MAP_OFFSET_X = 12, MAP_OFFSET_Y = 32,
+            COLORS = {
+                1 : "#06266f",
+                2 : "#078600",
+                3 : "#a60400",
+                4 : "#4c036e",
+                5 : "#a63100",
+                6 : "#04859d",
+                7 : "#443425",
+                8 : "#333333"
+            };
 
         function clearCanvas() {
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,11 +93,12 @@ var State = (function () {
         }
 
         function renderMap() {
-            var i, j;
+            var i, j, cell;
 
             for (i = 0; i < 16; i++) {
                 for (j = 0; j < 16; j++) {
-                    var cell = Model.getMapCell(i, j);
+                    cell = Model.getMapCell(i, j);
+
                     if (cell === -3) {
                         context.drawImage(Resources.getImage("button"), MAP_OFFSET_X + 24 * i, MAP_OFFSET_Y + 24 * j);
                     } else {
