@@ -1,6 +1,8 @@
-var Controller = function () {
-    var currentState;
-    var listeners;
+var Controller = (function () {
+    'use strict';
+    /*global Network, Resources, State */
+
+    var currentState, listeners;
 
     function Controller() {
         listeners = {};
@@ -44,10 +46,12 @@ var Controller = function () {
     };
 
     Controller.prototype.changeState = function (newState) {
-        if(currentState && currentState !== newState)
+        if (currentState && currentState !== newState) {
             currentState.exit();
-        if(!currentState || currentState !== newState)
+        }
+        if (!currentState || currentState !== newState) {
             newState.enter();
+        }
         currentState = newState;
     };
 
@@ -56,15 +60,18 @@ var Controller = function () {
     };
 
     Controller.prototype.listen = function (ev, callback) {
-        if(!listeners[ev])
+        if (!listeners[ev]) {
             listeners[ev] = [];
+        }
         listeners[ev].push(callback);
     };
 
     Controller.prototype.notify = function (ev, data) {
-        for(var i in listeners[ev])
+        var i;
+        for (i in listeners[ev]) {
             listeners[ev][i](data);
+        }
     };
 
     return new Controller();
-}();
+}());
