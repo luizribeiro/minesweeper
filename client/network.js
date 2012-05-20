@@ -31,7 +31,7 @@ var Network = (function () {
 
     Network.prototype.connect = function () {
         var host = window.location.hostname || "localhost";
-        socket = io.connect("http://" + host + ":5050", { "connect timeout": 5000 });
+        socket = io.connect();
 
         socket.on("connect", function (data) {
             Controller.notify("network_connected");
