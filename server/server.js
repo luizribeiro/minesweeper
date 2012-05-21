@@ -11,14 +11,12 @@ var app;
 var io;
 
 function onRequest(request, response) {
-    var filename, url;
+    var filename;
 
-    url = request.url.replace(config.APP_PATH, "/");
-
-    if (url === "/") {
+    if (request.url === "/") {
         filename = config.RESOURCES_PATH + "/index.html";
     } else {
-        filename = config.RESOURCES_PATH + url;
+        filename = config.RESOURCES_PATH + request.url;
     }
 
     fs.readFile(filename, function (err, data) {
