@@ -26,31 +26,12 @@ var config = require("./config");
 var model = require("./model");
 var controller = require("./controller");
 
-var http = require("http");
+var express = require("express");
+var sio = require("socket.io");
 var fs = require("fs");
 
 var app;
 var io;
-
-function onRequest(request, response) {
-    var filename;
-
-    if (request.url === "/") {
-        filename = config.RESOURCES_PATH + "/index.html";
-    } else {
-        filename = config.RESOURCES_PATH + request.url;
-    }
-
-    fs.readFile(filename, function (err, data) {
-        if (err) {
-            response.writeHead(500);
-            return response.end("Error loading resources.");
-        }
-
-        response.writeHead(200);
-        response.end(data);
-    });
-}
 
 function announceOpponents(match) {
     match.getPlayer1().getSocket().emit("opponent", match.getPlayer2().getId());
@@ -124,8 +105,12 @@ function onConnect(socket) {
 }
 
 function start() {
-    app = http.createServer(onRequest);
-    io = require("socket.io").listen(app);
+    app = express.createServer(
+            express.logger(),
+            express.static(config.RESOURCES_PATH),
+            express.bodyParser(),
+            express.cookieParser());
+    io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
     io.set("log level", 1);
     app.listen(config.HTTP_PORT);

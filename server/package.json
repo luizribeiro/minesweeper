@@ -1,0 +1,15 @@
+{
+    "name" : "minesweeper-server",
+    "version" : "0.0.1",
+
+    "description" : "A multiplayer minesweeper game in HTML5 + socket.io",
+
+    "dependencies" : {
+        "express" : "2.5.9",
+        "socket.io" : "0.9.6"
+    },
+
+    "engines" : {
+        "node" : "0.6.x"
+    }
+}
