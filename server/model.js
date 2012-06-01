@@ -22,7 +22,7 @@ SOFTWARE.
 
 'use strict';
 
-var config = require("./config");
+var config = require("../config");
 
 var Player = (function () {
     function Player(socket) {
@@ -170,9 +170,7 @@ var Match = (function () {
                 stateDelta1.push({ x : x, y : y, z : player.equals(self.player1) ? "A" : "B" });
                 stateDelta2.push({ x : x, y : y, z : player.equals(self.player2) ? "A" : "B" });
 
-                if (player.equals(self.player1)) {
-                    self.score1++;
-                } else {
+                if (player.equals(self.player1)) { self.score1++; } else {
                     self.score2++;
                 }
 

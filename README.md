@@ -13,11 +13,10 @@ See an online demo of the game [here](http://luizribeiro.org/minesweeper/).
 Run
 ---
 
-Copy `server/config.sample.js` to `server/config.js` and modify as necessary.
+Copy `config.sample.js` to `config.js` and modify as necessary.
 
-    $ cd server/
     $ npm install
-    $ node main.js
+    $ node run.js
 
 Point your browser to http://127.0.0.1:8888/ and voilà!
 

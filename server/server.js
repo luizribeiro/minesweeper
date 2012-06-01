@@ -22,7 +22,7 @@ SOFTWARE.
 
 'use strict';
 
-var config = require("./config");
+var config = require("../config");
 var model = require("./model");
 var controller = require("./controller");
 

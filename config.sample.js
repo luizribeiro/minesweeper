@@ -17,4 +17,4 @@ exports.TRANSPORTS = ["websocket"];
 exports.NUM_MINES = 40;
 
 // Path to the client's resources
-exports.RESOURCES_PATH = "../client";
+exports.RESOURCES_PATH = "./static";
