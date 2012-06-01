@@ -9,11 +9,11 @@ Run
 
 Copy `server/config.sample.js` to `server/config.js` and modify as necessary.
 
-    npm install
-    cd server/
-    node main.js
+    $ npm install
+    $ cd server/
+    $ node main.js
 
-Point your browser to http://localhost:8888/ and voilà!
+Point your browser to http://127.0.0.1:8888/ and voilà!
 
 
 License
