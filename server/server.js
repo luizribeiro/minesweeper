@@ -26,6 +26,7 @@ var config = require("./config");
 var model = require("./model");
 var controller = require("./controller");
 
+var faceplate = require("faceplate");
 var express = require("express");
 var sio = require("socket.io");
 var fs = require("fs");
@@ -109,7 +110,12 @@ function start() {
             express.logger(),
             express.static(config.RESOURCES_PATH),
             express.bodyParser(),
-            express.cookieParser());
+            express.cookieParser(),
+            express.session({ secret : config.SESSION_SECRET }),
+            faceplate.middleware({
+                app_id : config.FACEBOOK_APP_ID,
+                secret : config.FACEBOOK_SECRET
+            }));
     io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
     io.set("log level", 1);

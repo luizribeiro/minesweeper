@@ -6,6 +6,7 @@
 
     "dependencies" : {
         "express" : "2.5.9",
+        "faceplate" : "0.2.0",
         "socket.io" : "0.9.6"
     },
 
