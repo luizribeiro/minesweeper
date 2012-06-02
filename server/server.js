@@ -26,7 +26,7 @@ var config = require("../config");
 var model = require("./model");
 var controller = require("./controller");
 
-var faceplate = require("faceplate");
+var everyauth = require("everyauth");
 var express = require("express");
 var sio = require("socket.io");
 var fs = require("fs");
@@ -105,21 +105,39 @@ function onConnect(socket) {
     });
 }
 
+function render_index(request, response) {
+    response.render("../" + config.VIEWS_PATH + "/index.ejs", {
+        layout : false,
+        request : request,
+        config : config
+    });
+}
+
 function start() {
+    everyauth.facebook
+        .appId(config.FACEBOOK_APP_ID)
+        .appSecret(config.FACEBOOK_SECRET)
+        .findOrCreateUser(function (session, accessToken, accessTokExtra, fbUserMetadata) {
+            return { id : 1, teste : "ffffuuuu" };
+        })
+        .redirectPath("/");
+
     app = express.createServer(
-            express.logger(),
-            express.static(config.RESOURCES_PATH),
-            express.bodyParser(),
-            express.cookieParser(),
-            express.session({ secret : config.SESSION_SECRET }),
-            faceplate.middleware({
-                app_id : config.FACEBOOK_APP_ID,
-                secret : config.FACEBOOK_SECRET
-            }));
+        express.logger(),
+        express.static(config.RESOURCES_PATH),
+        express.bodyParser(),
+        express.cookieParser(),
+        express.session({ secret : config.SESSION_SECRET }),
+        everyauth.middleware());
+    everyauth.helpExpress(app);
+    app.listen(config.HTTP_PORT);
+
+    app.get("/", render_index);
+    app.post("/", render_index);
+
     io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
     io.set("log level", 1);
-    app.listen(config.HTTP_PORT);
 
     io.sockets.on("connection", onConnect);
 

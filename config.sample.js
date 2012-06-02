@@ -18,3 +18,6 @@ exports.NUM_MINES = 40;
 
 // Path to the client's resources
 exports.RESOURCES_PATH = "./static";
+
+// Path to the client's views
+exports.VIEWS_PATH = "./views";

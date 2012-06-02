@@ -37,8 +37,14 @@ var Controller = (function () {
         this.changeState(State.Loading);
 
         this.listen("resources_loaded", function () {
-            State.Loading.setText("Connecting to game server...");
-            Network.connect();
+            FB.getLoginStatus(function (response) {
+                if (response.status === "connected") {
+                    State.Loading.setText("Connecting to game server...");
+                    Network.connect();
+                } else {
+                    window.location = "/auth/facebook";
+                }
+            });
         });
 
         this.listen("network_connected", function () {

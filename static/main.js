@@ -21,7 +21,7 @@ SOFTWARE.
 */
 
 /*global Controller, window */
-window.onload = function () {
+function launchGame() {
     'use strict';
     Controller.init();
 };

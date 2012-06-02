@@ -6,7 +6,8 @@
 
     "dependencies" : {
         "express" : "2.5.9",
-        "faceplate" : "0.2.0",
+        "ejs" : "0.7.1",
+        "everyauth" : "0.2.32",
         "socket.io" : "0.9.6"
     },
 
