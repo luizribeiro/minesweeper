@@ -118,7 +118,7 @@ function start() {
         .appId(config.FACEBOOK_APP_ID)
         .appSecret(config.FACEBOOK_SECRET)
         .findOrCreateUser(function (session, accessToken, accessTokExtra, fbUserMetadata) {
-            return { id : 1, teste : "ffffuuuu" };
+            return { id : fbUserMetadata["id"] };
         })
         .redirectPath("/");
 
@@ -128,12 +128,15 @@ function start() {
         express.bodyParser(),
         express.cookieParser(),
         express.session({ secret : config.SESSION_SECRET }),
-        everyauth.middleware());
+        everyauth.middleware(),
+        everyauth.everymodule.findUserById(function (userId, callback) {
+            callback(null, { id : userId });
+        })
+    );
     everyauth.helpExpress(app);
     app.listen(config.HTTP_PORT);
 
     app.get("/", render_index);
-    app.post("/", render_index);
 
     io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
