@@ -41,6 +41,9 @@ var Controller = (function () {
                 if (response.status === "connected") {
                     State.Loading.setText("Connecting to game server...");
                     Network.connect();
+                    FB.api("/me", function(response) {
+                        Model.setMyInfo(response);
+                    });
                 } else {
                     window.location = "/auth/facebook";
                 }

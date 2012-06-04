@@ -45,7 +45,7 @@ var Network = (function () {
             Model.init();
             if (data.fbid !== -1) {
                 FB.api("/" + data.fbid, function(response) {
-                    Model.setOpponentInfo(response);
+                    Model.setOpInfo(response);
                 });
             }
         });

@@ -12,7 +12,7 @@ h1 {
 
 #content {
 	width: 408px;
-	height: 428px;
+	height: 448px;
 	margin: 0px auto;
 	background-color: rgba(255, 255, 255, 0.3);
 	border-radius: 15px;
@@ -21,7 +21,7 @@ h1 {
 .message {
 	font: bold 14px sans-serif;
 	width: 408px;
-	height: 428px;
+	height: 448px;
 	display: none;
 	position: absolute;
 	z-index: 9999;
@@ -33,7 +33,7 @@ h1 {
 
 .message div {
 	width: 408px;
-	height: 428px;
+	height: 448px;
 	text-align: center;
 	vertical-align: middle;
 	display: table-cell;
@@ -47,7 +47,7 @@ h1 {
 
 #announcement {
 	width: 408px;
-	height: 428px;
+	height: 448px;
 	display: none;
 	position: absolute;
 	z-index: 9999;
@@ -67,7 +67,7 @@ h1 {
 
 #announcement div {
 	width: 408px;
-	height: 428px;
+	height: 448px;
 	text-align: center;
 	vertical-align: middle;
 	display: table-cell;
