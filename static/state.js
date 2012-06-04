@@ -79,7 +79,7 @@ var State = (function () {
 
     Game = (function () {
         var canvas, context,
-            MAP_OFFSET_X = 12, MAP_OFFSET_Y = 52,
+            MAP_OFFSET_X = 12, MAP_OFFSET_Y = 69,
             COLORS = {
                 1 : "#06266f",
                 2 : "#078600",
@@ -96,32 +96,40 @@ var State = (function () {
         }
 
         function renderScoreboard() {
+            if (Model.getMyPhoto() && Model.getMyPhoto().complete) {
+                context.drawImage(Model.getMyPhoto(), MAP_OFFSET_X, 12);
+            }
+
+            if (Model.getOpPhoto() && Model.getOpPhoto().complete) {
+                context.drawImage(Model.getOpPhoto(), MAP_OFFSET_X + 16 * 24 - 50, 12);
+            }
+
             context.fillStyle = "#443425";
             context.font = "bold 14px sans-serif";
             context.textAlign = "left";
-            context.fillText((Model.getMyInfo() && Model.getMyInfo().name) || "Anonymous Coward", MAP_OFFSET_X + 5, 23);
+            context.fillText((Model.getMyInfo() && Model.getMyInfo().name) || "Anonymous", MAP_OFFSET_X + 5 + 50, 23 + 12 - 5);
 
-            context.drawImage(Resources.getImage("blueflag"), MAP_OFFSET_X + 5, 30);
+            context.drawImage(Resources.getImage("blueflag"), MAP_OFFSET_X + 5 + 50, 30 + 12 - 5);
             context.fillStyle = "#443425";
             context.font = "bold 20px sans-serif";
             context.textAlign = "left";
-            context.fillText(Model.getMyInfo() && Model.getMyScore(), MAP_OFFSET_X + 29, 46);
+            context.fillText(Model.getMyScore(), MAP_OFFSET_X + 29 + 50, 46 + 12 - 5);
 
             context.fillStyle = "#443425";
             context.font = "bold 14px sans-serif";
             context.textAlign = "right";
-            context.fillText((Model.getOpInfo() && Model.getOpInfo().name) || "Anonymous Coward", MAP_OFFSET_X + 16 * 24, 23);
+            context.fillText((Model.getOpInfo() && Model.getOpInfo().name) || "Anonymous", MAP_OFFSET_X + 16 * 24 - 50 - 5, 23 + 12 - 5);
 
-            context.drawImage(Resources.getImage("redflag"), MAP_OFFSET_X + 16 * 24 - 23, 30);
+            context.drawImage(Resources.getImage("redflag"), MAP_OFFSET_X + 16 * 24 - 23 - 50, 30 + 12 - 5);
             context.fillStyle = "#443425";
             context.font = "bold 20px sans-serif";
             context.textAlign = "right";
-            context.fillText(Model.getOpScore(), MAP_OFFSET_X + 16 * 24 - 29, 46);
+            context.fillText(Model.getOpScore(), MAP_OFFSET_X + 16 * 24 - 29 - 50, 46 + 12 - 5);
 
             context.fillStyle = "#443425";
             context.font = "bold 12px sans-serif";
             context.textAlign = "center";
-            context.fillText(Model.isMyTurn() ? "It's your turn" : "Please wait...", canvas.width / 2, 43);
+            context.fillText(Model.isMyTurn() ? "It's your turn" : "Please wait...", canvas.width / 2, 43 + 12 - 5);
         }
 
         function renderMap() {
@@ -219,7 +227,7 @@ var State = (function () {
 
         function Game() {
             $("#content").append("<div id=\"game\"></div>");
-            $("#game").append("<canvas id=\"canvas\" width=\"408\" height=\"448\"></canvas>");
+            $("#game").append("<canvas id=\"canvas\" width=\"408\" height=\"465\"></canvas>");
             $("#game").append("<div id=\"announcement\"><div><img /><p></p><button>Play Again</button></div></div>");
 
             canvas = $("#game canvas").get(0);

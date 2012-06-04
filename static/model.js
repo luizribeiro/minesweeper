@@ -27,7 +27,8 @@ var Model = (function () {
     var map, myTurn,
         myScore, opScore,
         myCursor, opCursor,
-        myInfo, opInfo;
+        myInfo, opInfo,
+        myPhoto, opPhoto;
 
     function Model() {
     }
@@ -52,6 +53,8 @@ var Model = (function () {
         opCursor = undefined;
 
         opInfo = undefined;
+
+        opPhoto = undefined;
 
         Controller.notify("model_init");
     };
@@ -127,7 +130,10 @@ var Model = (function () {
 
     Model.prototype.setMyInfo = function (info) {
         myInfo = info;
-        Controller.notify("model_updated");
+
+        myPhoto = new Image();
+        myPhoto.src = "https://graph.facebook.com/" + info.id + "/picture";
+
         return this;
     };
 
@@ -138,11 +144,26 @@ var Model = (function () {
     Model.prototype.setOpInfo = function (info) {
         opInfo = info;
         Controller.notify("model_updated");
+
+        opPhoto = new Image();
+        opPhoto.onload = function () {
+            Controller.notify("model_updated");
+        };
+        opPhoto.src = "https://graph.facebook.com/" + info.id + "/picture";
+
         return this;
     };
 
     Model.prototype.getOpInfo = function () {
         return opInfo;
+    };
+
+    Model.prototype.getMyPhoto = function () {
+        return myPhoto;
+    };
+
+    Model.prototype.getOpPhoto = function () {
+        return opPhoto;
     };
 
     return new Model();
