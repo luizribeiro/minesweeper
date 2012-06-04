@@ -96,13 +96,11 @@ var State = (function () {
         }
 
         function renderScoreboard() {
-            if (Model.getMyPhoto() && Model.getMyPhoto().complete) {
-                context.drawImage(Model.getMyPhoto(), MAP_OFFSET_X, 12);
-            }
+            context.drawImage(Model.getMyPhoto() && Model.getMyPhoto().complete ?
+                Model.getMyPhoto() : Resources.getImage("anonymous"), MAP_OFFSET_X, 12);
 
-            if (Model.getOpPhoto() && Model.getOpPhoto().complete) {
-                context.drawImage(Model.getOpPhoto(), MAP_OFFSET_X + 16 * 24 - 50, 12);
-            }
+            context.drawImage(Model.getOpPhoto() && Model.getOpPhoto().complete ?
+                Model.getOpPhoto() : Resources.getImage("anonymous"), MAP_OFFSET_X + 16 * 24 - 50, 12);
 
             context.fillStyle = "#443425";
             context.font = "bold 14px sans-serif";

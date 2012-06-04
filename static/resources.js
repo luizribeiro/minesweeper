@@ -35,6 +35,7 @@ var Resources = (function () {
         win : "img/win.png",
         lose : "img/lose.png",
         draw : "img/draw.png",
+        anonymous : "img/anonymous.png",
 
         // sound effects
         boom : "snd/boom.ogg",
