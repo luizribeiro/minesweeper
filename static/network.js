@@ -43,6 +43,11 @@ var Network = (function () {
 
         socket.on("opponent", function (data) {
             Model.init();
+            if (data.fbid !== -1) {
+                FB.api("/" + data.fbid, function(response) {
+                    Model.setOpponentInfo(response);
+                });
+            }
         });
 
         socket.on("turn", function (data) {

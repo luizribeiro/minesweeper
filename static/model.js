@@ -26,7 +26,8 @@ var Model = (function () {
 
     var map, myTurn,
         myScore, opScore,
-        myCursor, opCursor;
+        myCursor, opCursor,
+        opponentInfo;
 
     function Model() {
     }
@@ -49,6 +50,8 @@ var Model = (function () {
 
         myCursor = undefined;
         opCursor = undefined;
+
+        opponentInfo = undefined;
 
         Controller.notify("model_init");
     };
@@ -121,6 +124,16 @@ var Model = (function () {
     Model.prototype.getOpCursor = function () {
         return opCursor;
     };
+
+    Model.prototype.setOpponentInfo = function (info) {
+        opponentInfo = info;
+        Controller.notify("model_updated");
+        return this;
+    }
+
+    Model.prototype.getOpponentInfo = function () {
+        return opponentInfo;
+    }
 
     return new Model();
 }());

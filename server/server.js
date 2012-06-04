@@ -34,9 +34,11 @@ var fs = require("fs");
 var app;
 var io;
 
+var usersById = {};
+
 function announceOpponents(match) {
-    match.getPlayer1().getSocket().emit("opponent", match.getPlayer2().getId());
-    match.getPlayer2().getSocket().emit("opponent", match.getPlayer1().getId());
+    match.getPlayer1().getSocket().emit("opponent", { fbid : match.getPlayer2().fbid });
+    match.getPlayer2().getSocket().emit("opponent", { fbid : match.getPlayer1().fbid });
 }
 
 function announceTurns(match) {
@@ -60,9 +62,11 @@ function announceWinner(match) {
 }
 
 function onConnect(socket) {
+    var user = usersById[socket.handshake.sessionID];
     var player = controller.connectPlayer(socket);
+    player.fbid = (user && user.fbid) || -1;
 
-    console.log("Player " + player.getId() + " just connected.");
+    console.log("Player " + player.getId() + " (fbid:" + player.fbid + ") just connected.");
 
     socket.on("challenge", function (data) {
         if (controller.challenge(player)) {
@@ -118,7 +122,10 @@ function start() {
         .appId(config.FACEBOOK_APP_ID)
         .appSecret(config.FACEBOOK_SECRET)
         .findOrCreateUser(function (session, accessToken, accessTokExtra, fbUserMetadata) {
-            return { id : fbUserMetadata["id"] };
+            return usersById[session.id] = {
+                id : session.id,
+                fbid : fbUserMetadata["id"]
+            };
         })
         .redirectPath("/");
 
@@ -127,10 +134,13 @@ function start() {
         express.static(config.RESOURCES_PATH),
         express.bodyParser(),
         express.cookieParser(),
-        express.session({ secret : config.SESSION_SECRET }),
+        express.session({
+            secret : config.SESSION_SECRET,
+            key : "express.sid"
+        }),
         everyauth.middleware(),
         everyauth.everymodule.findUserById(function (userId, callback) {
-            callback(null, { id : userId });
+            callback(null, usersById[userId]);
         })
     );
     everyauth.helpExpress(app);
@@ -141,6 +151,19 @@ function start() {
     io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
     io.set("log level", 1);
+
+    io.set("authorization", function (data, accept) {
+        var parseCookie = require("connect").utils.parseCookie;
+
+        if (data.headers.cookie) {
+            data.cookie = parseCookie(data.headers.cookie);
+            data.sessionID = data.cookie["express.sid"];
+        } else {
+            return accept("No cookie transmitted.", false);
+        }
+
+        accept(null, true);
+    });
 
     io.sockets.on("connection", onConnect);
 
