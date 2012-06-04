@@ -147,6 +147,7 @@ function start() {
     app.listen(config.HTTP_PORT);
 
     app.get("/", render_index);
+    app.post("/", render_index);
 
     io = sio.listen(app);
     io.set("transports", config.TRANSPORTS);
