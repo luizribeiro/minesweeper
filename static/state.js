@@ -244,7 +244,9 @@ var State = (function () {
         Game.prototype.enter = function () {
             $("#announcement").hide();
             $("#board").css({ opacity : 1.0 }).show();
-            $("#game").stop().fadeIn("slow", function () {});
+            $("#game").stop().fadeIn("slow", function () {
+                $("#game").css({ opacity : 1.0 });
+            });
             return this;
         };
 
