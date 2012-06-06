@@ -79,7 +79,7 @@ var State = (function () {
 
     Game = (function () {
         var canvas, context,
-            MAP_OFFSET_X = 12, MAP_OFFSET_Y = 69,
+            MAP_OFFSET_X = 0, MAP_OFFSET_Y = 0,
             COLORS = {
                 1 : "#06266f",
                 2 : "#078600",
@@ -91,43 +91,24 @@ var State = (function () {
                 8 : "#333333"
             };
 
-        function clearCanvas() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
         function renderScoreboard() {
-            context.drawImage(Model.getMyPhoto() && Model.getMyPhoto().complete ?
-                Model.getMyPhoto() : Resources.getImage("anonymous"), MAP_OFFSET_X, 12);
+            $("#myprofile").css({ opacity : Model.isMyTurn() ? 1.0 : 0.7 });
+            $("#myprofile .name").text((Model.getMyInfo() && Model.getMyInfo().name) || "Anonymous");
+            $("#myprofile .picture").replaceWith($(
+                        Model.getMyPhoto() && Model.getMyPhoto().complete
+                        ? Model.getMyPhoto()
+                        : Resources.getImage("anonymous")
+                        ).clone().addClass("picture"));
+            $("#myprofile .value").text(Model.getMyScore());
 
-            context.drawImage(Model.getOpPhoto() && Model.getOpPhoto().complete ?
-                Model.getOpPhoto() : Resources.getImage("anonymous"), MAP_OFFSET_X + 16 * 24 - 50, 12);
-
-            context.fillStyle = "#443425";
-            context.font = "bold 14px sans-serif";
-            context.textAlign = "left";
-            context.fillText((Model.getMyInfo() && Model.getMyInfo().name) || "Anonymous", MAP_OFFSET_X + 5 + 50, 23 + 12 - 5);
-
-            context.drawImage(Resources.getImage("blueflag"), MAP_OFFSET_X + 5 + 50, 30 + 12 - 5);
-            context.fillStyle = "#443425";
-            context.font = "bold 20px sans-serif";
-            context.textAlign = "left";
-            context.fillText(Model.getMyScore(), MAP_OFFSET_X + 29 + 50, 46 + 12 - 5);
-
-            context.fillStyle = "#443425";
-            context.font = "bold 14px sans-serif";
-            context.textAlign = "right";
-            context.fillText((Model.getOpInfo() && Model.getOpInfo().name) || "Anonymous", MAP_OFFSET_X + 16 * 24 - 50 - 5, 23 + 12 - 5);
-
-            context.drawImage(Resources.getImage("redflag"), MAP_OFFSET_X + 16 * 24 - 23 - 50, 30 + 12 - 5);
-            context.fillStyle = "#443425";
-            context.font = "bold 20px sans-serif";
-            context.textAlign = "right";
-            context.fillText(Model.getOpScore(), MAP_OFFSET_X + 16 * 24 - 29 - 50, 46 + 12 - 5);
-
-            context.fillStyle = "#443425";
-            context.font = "bold 12px sans-serif";
-            context.textAlign = "center";
-            context.fillText(Model.isMyTurn() ? "It's your turn" : "Please wait...", canvas.width / 2, 43 + 12 - 5);
+            $("#opprofile").css({ opacity : !Model.isMyTurn() ? 1.0 : 0.7 });
+            $("#opprofile .name").text((Model.getOpInfo() && Model.getOpInfo().name) || "Anonymous");
+            $("#opprofile .picture").replaceWith($(
+                        Model.getOpPhoto() && Model.getOpPhoto().complete
+                        ? Model.getOpPhoto()
+                        : Resources.getImage("anonymous")
+                        ).clone().addClass("picture"));
+            $("#opprofile .value").text(Model.getOpScore());
         }
 
         function renderMap() {
@@ -168,14 +149,13 @@ var State = (function () {
         }
 
         function render() {
-            clearCanvas();
             renderScoreboard();
             renderMap();
             renderCursors(Model.getMyCursor(), Model.getOpCursor());
         }
 
         function renderAnnouncement(img, msg, snd) {
-            $("#game canvas").stop().fadeTo("slow", 0.2, function () {});
+            $("#board").stop().fadeTo("slow", 0.2, function () {});
             $("#announcement img").replaceWith($(img).clone());
             $("#announcement p").text(msg);
             $("#announcement button").removeAttr("disabled");
@@ -225,10 +205,18 @@ var State = (function () {
 
         function Game() {
             $("#content").append("<div id=\"game\"></div>");
-            $("#game").append("<canvas id=\"canvas\" width=\"408\" height=\"465\"></canvas>");
+
+            $("#game").append("<div id=\"board\"></div>");
             $("#game").append("<div id=\"announcement\"><div><img /><p></p><button>Play Again</button></div></div>");
 
-            canvas = $("#game canvas").get(0);
+            $("#board").append("<div id=\"scoreboard\"></div>");
+            $("#board").append("<canvas id=\"canvas\" width=\"384\" height=\"384\"></canvas>");
+
+            $("#scoreboard").append("<div class=\"profile\" id=\"myprofile\"><img class=\"picture\" src=\"img/anonymous.png\" /><div class=\"inner\"><p class=\"name\">Anonymous</p><p class=\"score\"><img src=\"img/blueflag.png\" /> <span class=\"value\">0</span></p></div></div>");
+            $("#scoreboard").append("<div class=\"status\"><p class=\"countdown\"></p></div>");
+            $("#scoreboard").append("<div class=\"profile\" id=\"opprofile\"><img class=\"picture\" src=\"img/anonymous.png\" /><div class=\"inner\"><p class=\"name\">Anonymous</p><p class=\"score\"><img src=\"img/redflag.png\" /> <span class=\"value\">0</span></p></div></div>");
+
+            canvas = $("#board canvas").get(0);
             context = canvas.getContext("2d");
 
             canvas.addEventListener("mousemove", ev_mousemove, false);
@@ -255,7 +243,7 @@ var State = (function () {
 
         Game.prototype.enter = function () {
             $("#announcement").hide();
-            $("#game canvas").css({ opacity : 1.0 }).show();
+            $("#board").css({ opacity : 1.0 }).show();
             $("#game").stop().fadeIn("slow", function () {});
             return this;
         };
