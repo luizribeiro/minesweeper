@@ -131,7 +131,7 @@ function start() {
 
     app = express.createServer(
         express.logger(),
-        express.static(config.RESOURCES_PATH),
+        express.static(config.RESOURCES_PATH, { maxAge : 31557600000 }),
         express.bodyParser(),
         express.cookieParser(),
         express.session({
