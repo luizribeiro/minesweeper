@@ -137,7 +137,6 @@ function start() {
             key : fs.readFileSync(config.HTTPS_KEY),
             cert : fs.readFileSync(config.HTTPS_CRT),
         };
-        console.log("oirs");
     }
 
     if (opts) {
