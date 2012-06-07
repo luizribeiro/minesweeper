@@ -92,7 +92,7 @@ var State = (function () {
             };
 
         function renderScoreboard() {
-            $("#myprofile").css({ opacity : Model.isMyTurn() ? 1.0 : 0.7 });
+            $("#myprofile").css({ opacity : Model.isMyTurn() ? 1.0 : 0.5 });
             $("#myprofile .name").text((Model.getMyInfo() && Model.getMyInfo().name) || "Anonymous");
             $("#myprofile .picture").replaceWith($(
                         Model.getMyPhoto() && Model.getMyPhoto().complete
@@ -101,7 +101,7 @@ var State = (function () {
                         ).clone().addClass("picture"));
             $("#myprofile .value").text(Model.getMyScore());
 
-            $("#opprofile").css({ opacity : !Model.isMyTurn() ? 1.0 : 0.7 });
+            $("#opprofile").css({ opacity : !Model.isMyTurn() ? 1.0 : 0.5 });
             $("#opprofile .name").text((Model.getOpInfo() && Model.getOpInfo().name) || "Anonymous");
             $("#opprofile .picture").replaceWith($(
                         Model.getOpPhoto() && Model.getOpPhoto().complete
