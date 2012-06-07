@@ -118,6 +118,8 @@ function render_index(request, response) {
 }
 
 function start() {
+    var opts;
+
     everyauth.facebook
         .appId(config.FACEBOOK_APP_ID)
         .appSecret(config.FACEBOOK_SECRET)
@@ -129,20 +131,33 @@ function start() {
         })
         .redirectPath("/");
 
-    app = express.createServer(
-        express.logger(),
-        express.static(config.RESOURCES_PATH, { maxAge : 31557600000 }),
-        express.bodyParser(),
-        express.cookieParser(),
-        express.session({
-            secret : config.SESSION_SECRET,
-            key : "express.sid"
-        }),
-        everyauth.middleware(),
-        everyauth.everymodule.findUserById(function (userId, callback) {
-            callback(null, usersById[userId]);
-        })
-    );
+    if (config.HTTPS_KEY && config.HTTPS_CRT) {
+        var fs = require("fs");
+        opts = {
+            key : fs.readFileSync(config.HTTPS_KEY),
+            cert : fs.readFileSync(config.HTTPS_CRT),
+        };
+        console.log("oirs");
+    }
+
+    if (opts) {
+        app = express.createServer(opts);
+    } else {
+        app = express.createServer();
+    }
+
+    app.use(express.logger());
+    app.use(express.static(config.RESOURCES_PATH, { maxAge : 31557600000 }));
+    app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({
+        secret : config.SESSION_SECRET,
+        key : "express.sid"
+    }));
+    app.use(everyauth.middleware());
+    app.use(everyauth.everymodule.findUserById(function (userId, callback) {
+        callback(null, usersById[userId]);
+    }));
     everyauth.helpExpress(app);
     app.listen(config.HTTP_PORT);
 

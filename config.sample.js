@@ -7,6 +7,10 @@ exports.FACEBOOK_APP_ID = "put your facebook app id here";
 // Facebook App Secret
 exports.FACEBOOK_SECRET = "put your facebook app secret here";
 
+// Put your HTTPS key/certificate file path here
+exports.HTTPS_KEY = undefined;
+exports.HTTPS_CRT = undefined;
+
 // Port in which the server will listen
 exports.HTTP_PORT = 8888;
 
