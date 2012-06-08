@@ -14,6 +14,9 @@ exports.HTTPS_CRT = undefined;
 // Port in which the server will listen
 exports.HTTP_PORT = 8888;
 
+// Game URL (this will be prepended to the Facebook callback URL)
+exports.GAME_URL = "http://127.0.0.1:8888";
+
 // Allowed socket.io transports
 exports.TRANSPORTS = ["websocket"];
 

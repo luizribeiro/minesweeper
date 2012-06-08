@@ -129,6 +129,7 @@ function start() {
                 fbid : fbUserMetadata["id"]
             };
         })
+        .myHostname(config.GAME_URL)
         .redirectPath("/");
 
     if (config.HTTPS_KEY && config.HTTPS_CRT) {
