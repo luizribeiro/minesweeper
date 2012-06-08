@@ -45,7 +45,7 @@ var Controller = (function () {
                         Model.setMyInfo(response);
                     });
                 } else {
-                    window.location = "/auth/facebook";
+                    top.location.href = "/auth/facebook";
                 }
             });
         });
