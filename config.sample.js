@@ -17,6 +17,10 @@ exports.HTTP_PORT = 8888;
 // Game URL (this will be prepended to the Facebook callback URL)
 exports.GAME_URL = "http://127.0.0.1:8888";
 
+// Canvas URL (after authentication, the user will be redirected here)
+// If undefined, the user will be redirected to /
+exports.CANVAS_URL = undefined;
+
 // Allowed socket.io transports
 exports.TRANSPORTS = ["websocket"];
 

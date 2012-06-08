@@ -130,7 +130,12 @@ function start() {
             };
         })
         .myHostname(config.GAME_URL)
-        .redirectPath("/");
+
+    if (config.CANVAS_URL) {
+        everyauth.facebook.redirectPath(config.CANVAS_URL);
+    } else {
+        everyauth.facebook.redirectPath("/");
+    }
 
     if (config.HTTPS_KEY && config.HTTPS_CRT) {
         var fs = require("fs");
